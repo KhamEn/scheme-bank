@@ -1,4 +1,8 @@
-import Sidebar from "./Sidebar/Sidebar";
+import { enableMapSet } from "immer";
+import Sidebar from "./Navbar/Sidebar";
+
+// Immer
+enableMapSet()
 
 function App() {
   return (
