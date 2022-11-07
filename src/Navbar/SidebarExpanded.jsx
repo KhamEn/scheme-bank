@@ -1,50 +1,20 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  fetchCurrentSchemeDocId,
-  fetchAllSchemes,
-} from "../database/FirestoreHelper";
-
-// const initialSchemes = await fetchAllSchemes();
+import { useQuery } from "@tanstack/react-query";
+import { fetchAllSchemes } from "../database/FirestoreHelper";
+import SchemeListItem from "./SchemeListItem";
 
 const SidebarExpanded = ({ collapseSidebar }) => {
-  const { data: dataSchemes, isLoading: isLoadingSchemes } = useQuery(
-    ["schemes"],
-    fetchAllSchemes
-  );
-  const { data: dataCurrentScheme, isLoading: isLoadingCurrentSchemeId } =
-    useQuery(["currentSchemeId"], fetchCurrentSchemeDocId);
+  const { data, isLoading } = useQuery(["schemes"], fetchAllSchemes);
 
-  function getSchemesAsElements() {
-    const schemesElements = [];
+  function getSchemesList() {
+    const schemesList = [];
 
-    for (const [docId, scheme] of dataSchemes) {
-      if (isLoadingCurrentSchemeId) {
-        const item = (
-          <li className=" bg-red-900" key={docId}>
-            {scheme.name}
-          </li>
-        );
-        schemesElements.push(item);
-      } else {
-        if (dataCurrentScheme.id === docId) {
-          const item = (
-            <li className=" bg-green-900" key={docId}>
-              {scheme.name}
-            </li>
-          );
-          schemesElements.push(item);
-        } else {
-          const item = (
-            <li className=" bg-red-900" key={docId}>
-              {scheme.name}
-            </li>
-          );
-          schemesElements.push(item);
-        }
-      }
+    for (const [docId, scheme] of data) {
+      schemesList.push(
+        <SchemeListItem key={docId} id={docId} name={scheme.name} />
+      );
     }
 
-    return schemesElements;
+    return schemesList;
   }
 
   return (
@@ -57,7 +27,7 @@ const SidebarExpanded = ({ collapseSidebar }) => {
         <button className=" bg-red-900" onClick={collapseSidebar}>
           {"<<<<"}
         </button>
-        {!isLoadingSchemes && getSchemesAsElements()}
+        {!isLoading && getSchemesList()}
       </ul>
     </nav>
   );

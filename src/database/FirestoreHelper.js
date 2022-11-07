@@ -1,7 +1,20 @@
-import { doc,getDoc, getDocs, collection } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  getDoc,
+  getDocs,
+  collection,
+} from "firebase/firestore";
 import db from "./firestore-config";
 
-const nameOfSchemesCollection = "schemesFirestore"
+const nameOfSchemesCollection = "schemesFirestore";
+
+async function setCurrentSchemeDocId(id) {
+  const docRef = doc(db, "currentScheme", "ID");
+  await updateDoc(docRef, {
+    id: id,
+  });
+}
 
 async function fetchCurrentSchemeDocId() {
   const docRef = doc(db, "currentScheme", "ID");
@@ -10,19 +23,19 @@ async function fetchCurrentSchemeDocId() {
   return docSnap.data();
 }
 
-
 /* 
-  returns a map of schemes (key = schemeDocumentId, value = scheme)
+  return a map of schemes (key = schemeDocumentId, value = scheme)
 */
-
 async function fetchAllSchemes() {
   const schemes = new Map();
-  const schemesCollection = await getDocs(collection(db, nameOfSchemesCollection));
+  const schemesCollection = await getDocs(
+    collection(db, nameOfSchemesCollection)
+  );
   schemesCollection.forEach((scheme) => {
     schemes.set(scheme.id, scheme.data());
   });
-  
+
   return schemes;
 }
 
-export { fetchCurrentSchemeDocId, fetchAllSchemes };
+export { setCurrentSchemeDocId, fetchCurrentSchemeDocId, fetchAllSchemes };
