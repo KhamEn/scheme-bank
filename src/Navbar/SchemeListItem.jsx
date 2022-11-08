@@ -1,13 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchCurrentSchemeDocId } from "../database/FirestoreHelper";
-import useSelectScheme from "../database/useSelectScheme";
+import useGetCurrentSchemeIdQuery from "../database/useGetCurrentSchemeIdQuery";
+import useSelectSchemeMutation from "../database/useSelectScheme";
 
 const SchemeListItem = ({ id, name }) => {
-  const { data, isLoading } = useQuery(
-    ["currentSchemeId"],
-    fetchCurrentSchemeDocId
-  );
-  const { mutate } = useSelectScheme();
+  const { data, isLoading } = useGetCurrentSchemeIdQuery();
+  const { mutate } = useSelectSchemeMutation();
 
   function handleClick() {
     mutate(id);

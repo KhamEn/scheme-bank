@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { doc, updateDoc } from "firebase/firestore";
 import db from "./firestore-config";
 
-const nameOfSchemesCollection = "schemesFirestore";
 
 async function setCurrentSchemeDocId(id) {
   const docRef = doc(db, "currentScheme", "ID");
@@ -11,7 +10,7 @@ async function setCurrentSchemeDocId(id) {
   });
 }
 
-function useSelectScheme() {
+function useSelectSchemeMutation() {
     const queryClienet = useQueryClient()
 
   return useMutation(setCurrentSchemeDocId, {
@@ -21,4 +20,4 @@ function useSelectScheme() {
   });
 }
 
-export default useSelectScheme;
+export default useSelectSchemeMutation;
