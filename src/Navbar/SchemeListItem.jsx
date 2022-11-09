@@ -1,5 +1,5 @@
-import useGetCurrentSchemeIdQuery from "../database/useGetCurrentSchemeIdQuery";
-import useSelectSchemeMutation from "../database/useSelectScheme";
+import useGetCurrentSchemeIdQuery from "../database/hooks/useGetCurrentSchemeIdQuery";
+import useSelectSchemeMutation from "../database/hooks/useSelectSchemeMutation";
 
 const SchemeListItem = ({ id, name }) => {
   const { data, isLoading } = useGetCurrentSchemeIdQuery();
@@ -18,7 +18,10 @@ const SchemeListItem = ({ id, name }) => {
   } else {
     if (data.id === id) {
       return (
-        <li className=" bg-green-900 hover:cursor-pointer" onClick={handleClick}>
+        <li
+          className=" bg-green-900 hover:cursor-pointer"
+          onClick={handleClick}
+        >
           {name}
         </li>
       );

@@ -1,9 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchAllSchemes } from "../database/FirestoreHelper";
 import SchemeListItem from "./SchemeListItem";
+import useGetAllSchemesQuery from "../database/hooks/useGetAllSchemesQuery";
 
 const SidebarExpanded = ({ collapseSidebar }) => {
-  const { data, isLoading } = useQuery(["schemes"], fetchAllSchemes);
+  const { data, isLoading } = useGetAllSchemesQuery();
 
   function getSchemesList() {
     const schemesList = [];
