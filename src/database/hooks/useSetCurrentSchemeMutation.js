@@ -10,7 +10,7 @@ async function setCurrentSchemeDocId(id) {
   });
 }
 
-function useSelectSchemeMutation() {
+function useSetCurrentSchemeMutation() {
   const queryClient = useQueryClient();
 
   return useMutation(setCurrentSchemeDocId, {
@@ -20,4 +20,4 @@ function useSelectSchemeMutation() {
   });
 }
 
-export default useSelectSchemeMutation;
+export default useSetCurrentSchemeMutation;

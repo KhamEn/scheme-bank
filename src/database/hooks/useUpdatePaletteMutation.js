@@ -4,7 +4,7 @@ import db from "../firestore-config";
 import { FIRESTORE_COLLECTION } from "../Enums";
 import useGetCurrentSchemeIdQuery from "./useGetCurrentSchemeIdQuery";
 
-async function addColorBlock(variables) {
+async function updatePalette(variables) {
   const paletteRef = doc(
     db,
     FIRESTORE_COLLECTION.schemes,
@@ -14,19 +14,19 @@ async function addColorBlock(variables) {
   );
 
   await updateDoc(paletteRef, {
-    colors: variables.colors.concat("#000"),
+    colors: variables.updatedColors,
   });
 }
 
-function useAddColorBlockMutation(paletteGroup) {
+function useUpdatePaletteMutation(paletteGroup) {
   const queryClient = useQueryClient();
   const { data } = useGetCurrentSchemeIdQuery();
 
-  return useMutation(addColorBlock, {
+  return useMutation(updatePalette, {
     onSuccess: () => {
       queryClient.invalidateQueries([data.id, paletteGroup]);
     },
   });
 }
 
-export default useAddColorBlockMutation;
+export default useUpdatePaletteMutation;

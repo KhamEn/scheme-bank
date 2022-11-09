@@ -1,10 +1,9 @@
 import useGetCurrentSchemeIdQuery from "../database/hooks/useGetCurrentSchemeIdQuery";
-import useAddColorBlockMutation from "../database/hooks/useAddColorBlockMutation";
+import useUpdatePaletteMutation from "../database/hooks/useUpdatePaletteMutation";
 
 const Palette = ({ group, docId, name, colors }) => {
   const { data, isLoading } = useGetCurrentSchemeIdQuery();
-  const { mutate } = useAddColorBlockMutation(group);
-  console.log(colors);
+  const { mutate } = useUpdatePaletteMutation(group);
 
   function addColor() {
     if (!isLoading) {
@@ -12,8 +11,23 @@ const Palette = ({ group, docId, name, colors }) => {
         currentSchemeId: data.id,
         paletteGroup: group,
         paletteId: docId,
-        colors: colors,
+        updatedColors: colors.concat("#000"),
       };
+      mutate(variables);
+    }
+  }
+
+  function deleteColor(targetIndex) {
+    if (!isLoading) {
+      colors.splice(targetIndex, 1);
+
+      const variables = {
+        currentSchemeId: data.id,
+        paletteGroup: group,
+        paletteId: docId,
+        updatedColors: colors,
+      };
+
       mutate(variables);
     }
   }
@@ -21,11 +35,19 @@ const Palette = ({ group, docId, name, colors }) => {
   function listColorBlocks() {
     return colors.map((color, index) => {
       return (
-        <div
-          key={`${docId}${color}${index}`}
-          style={{ backgroundColor: color }}
-        >
-          {color}
+        <div>
+          <div
+            key={`${docId}${color}${index}`}
+            style={{ backgroundColor: color }}
+          >
+            {color}
+          </div>
+          <button
+            onClick={() => deleteColor(index)}
+            className=" border-4 border-red-500"
+          >
+            Delete Color Block
+          </button>
         </div>
       );
     });
