@@ -25,7 +25,7 @@ const PaletteGroup = ({ groupName }) => {
       const paletteComponent = (
         <Palette
           key={docId}
-          group={groupName}
+          paletteType={groupName}
           docId={docId}
           name={palette.name}
           colors={palette.colors}

@@ -10,7 +10,6 @@ import useGetCurrentSchemeIdQuery from "../useGetCurrentSchemeIdQuery";
 @param variables.paletteName - the name of the new palette
 */
 async function addPalette(variables) {
-  console.log(variables);
   await addDoc(
     collection(
       db,
