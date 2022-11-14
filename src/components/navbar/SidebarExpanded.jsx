@@ -1,3 +1,4 @@
+import { ArrowLeftOnRectangleIcon } from "@heroicons/react/24/outline";
 import SchemeListItem from "./SchemeListItem";
 import useGetAllSchemesQuery from "../../database/hooks/schemes/useGetAllSchemesQuery";
 
@@ -17,14 +18,10 @@ const SidebarExpanded = ({ collapseSidebar }) => {
   }
 
   return (
-    <nav
-      className={
-        "p-2 fixed top-0 left-0 h-screen min-w-max flex flex-col bg-gray-900 text-white shadow-lg"
-      }
-    >
+    <nav className={"h-screen p-2 flex flex-col bg-gray-500/25 "}>
       <ul>
-        <button className=" bg-red-900" onClick={collapseSidebar}>
-          {"<<<<"}
+        <button onClick={collapseSidebar}>
+          <ArrowLeftOnRectangleIcon className=" h-6 w-6" />
         </button>
         {!isLoading && getSchemesList()}
       </ul>

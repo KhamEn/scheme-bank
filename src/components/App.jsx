@@ -7,13 +7,15 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div>
+    <>
       <QueryClientProvider client={queryClient}>
-        <Sidebar />
-        <SchemePage />
+        <div className="flex flex-row">
+          <Sidebar />
+          <SchemePage />
+        </div>
         <ReactQueryDevtools />
       </QueryClientProvider>
-    </div>
+    </>
   );
 }
 

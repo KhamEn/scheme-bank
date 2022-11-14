@@ -1,13 +1,11 @@
-const SidebarCollapsed = ({expandSidebar }) => {
+import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
+
+const SidebarCollapsed = ({ expandSidebar }) => {
   return (
-    <nav
-      className={
-        "p-2 fixed top-0 left-0 h-screen min-w-max flex flex-col bg-gray-900 text-white shadow-lg"
-      }
-    >
+    <nav className={"p-2 h-screen bg-gray-500/25 "}>
       <ul>
-        <button className=" bg-green-900" onClick={expandSidebar}>
-          {">>>"}
+        <button onClick={expandSidebar}>
+          <ArrowRightOnRectangleIcon className=" h-6 w-6 " />
         </button>
       </ul>
     </nav>

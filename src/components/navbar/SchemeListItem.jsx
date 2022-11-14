@@ -11,7 +11,10 @@ const SchemeListItem = ({ id, name }) => {
 
   if (isLoading) {
     return (
-      <li className=" bg-red-900 hover:cursor-pointer" onClick={handleClick}>
+      <li
+        className=" p-1 m-2 border rounded border-black text-black bg-white hover:cursor-pointer hover:bg-black/50 hover:text-white/80"
+        onClick={handleClick}
+      >
         {name}
       </li>
     );
@@ -19,7 +22,7 @@ const SchemeListItem = ({ id, name }) => {
     if (data.id === id) {
       return (
         <li
-          className=" bg-green-900 hover:cursor-pointer"
+          className="p-1 m-2 border rounded border-black  bg-black  text-white hover:cursor-pointer"
           onClick={handleClick}
         >
           {name}
@@ -27,7 +30,10 @@ const SchemeListItem = ({ id, name }) => {
       );
     } else {
       return (
-        <li className=" bg-red-900 hover:cursor-pointer" onClick={handleClick}>
+        <li
+          className=" p-1 m-2 border rounded border-black bg-white text-black hover:cursor-pointer hover:bg-black/80 hover:text-white/80"
+          onClick={handleClick}
+        >
           {name}
         </li>
       );
