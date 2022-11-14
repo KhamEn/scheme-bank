@@ -1,5 +1,5 @@
 import SchemeListItem from "./SchemeListItem";
-import useGetAllSchemesQuery from "../database/hooks/useGetAllSchemesQuery";
+import useGetAllSchemesQuery from "../../database/hooks/schemes/useGetAllSchemesQuery";
 
 const SidebarExpanded = ({ collapseSidebar }) => {
   const { data, isLoading } = useGetAllSchemesQuery();

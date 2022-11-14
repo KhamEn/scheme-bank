@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { doc, deleteDoc } from "firebase/firestore";
 import db from "../../firestore-config";
 import { FIRESTORE_COLLECTION } from "../../Enums";
-import useGetCurrentSchemeIdQuery from "../useGetCurrentSchemeIdQuery";
+import useGetCurrentSchemeIdQuery from "../schemes/useGetCurrentSchemeIdQuery";
 
 /*
 @param variablese.schemeId - the doc id of the scheme of the target palette

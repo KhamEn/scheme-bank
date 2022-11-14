@@ -1,5 +1,5 @@
-import useGetCurrentSchemeIdQuery from "../database/hooks/useGetCurrentSchemeIdQuery";
-import useSelectSchemeMutation from "../database/hooks/useSetCurrentSchemeMutation";
+import useGetCurrentSchemeIdQuery from "../../database/hooks/schemes/useGetCurrentSchemeIdQuery";
+import useSelectSchemeMutation from "../../database/hooks/schemes/useSetCurrentSchemeMutation";
 
 const SchemeListItem = ({ id, name }) => {
   const { data, isLoading } = useGetCurrentSchemeIdQuery();

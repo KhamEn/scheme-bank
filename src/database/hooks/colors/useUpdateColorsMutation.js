@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { doc, updateDoc } from "firebase/firestore";
-import db from "../firestore-config";
-import { FIRESTORE_COLLECTION } from "../Enums";
-import useGetCurrentSchemeIdQuery from "./useGetCurrentSchemeIdQuery";
+import db from "../../firestore-config";
+import { FIRESTORE_COLLECTION } from "../../Enums";
+import useGetCurrentSchemeIdQuery from "../schemes/useGetCurrentSchemeIdQuery";
 
-async function updatePalette(variables) {
+async function updateColors(variables) {
   const paletteRef = doc(
     db,
     FIRESTORE_COLLECTION.schemes,
@@ -18,15 +18,15 @@ async function updatePalette(variables) {
   });
 }
 
-function useUpdatePaletteMutation(paletteGroup) {
+function useUpdateColorsMutation(paletteType) {
   const queryClient = useQueryClient();
   const { data } = useGetCurrentSchemeIdQuery();
 
-  return useMutation(updatePalette, {
+  return useMutation(updateColors, {
     onSuccess: () => {
-      queryClient.invalidateQueries([data.id, paletteGroup]);
+      queryClient.invalidateQueries([data.id, paletteType]);
     },
   });
 }
 
-export default useUpdatePaletteMutation;
+export default useUpdateColorsMutation;

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getDocs, collection } from "firebase/firestore";
-import db from "../firestore-config";
-import { FIRESTORE_COLLECTION } from "../Enums";
+import db from "../../firestore-config";
+import { FIRESTORE_COLLECTION } from "../../Enums";
 
 /* 
   return a map of schemes (key = schemeDocumentId, value = scheme)

@@ -1,11 +1,11 @@
-import { doc, getDoc, getDocs, collection } from "firebase/firestore";
-import useGetCurrentSchemeIdQuery from "./useGetCurrentSchemeIdQuery";
+import { getDocs, collection } from "firebase/firestore";
 import { useQuery } from "@tanstack/react-query";
-import db from "../firestore-config";
-import { FIRESTORE_COLLECTION } from "../Enums";
+import db from "../../firestore-config";
+import { FIRESTORE_COLLECTION } from "../../Enums";
+import useGetCurrentSchemeIdQuery from "../schemes/useGetCurrentSchemeIdQuery";
 
 //  return: a map (key: docId, value: palette{name, colors})
-async function getPalettes(currentSchemeDocId, paletteGroupId) {
+async function getAllPalettes(currentSchemeDocId, paletteGroupId) {
   const palettesRef = collection(
     db,
     FIRESTORE_COLLECTION.schemes,
@@ -18,18 +18,18 @@ async function getPalettes(currentSchemeDocId, paletteGroupId) {
   return palettes;
 }
 
-function useGetPalettesQuery(paletteGroupId) {
+function useGetAllPalettesQuery(paletteGroupId) {
   const { data } = useGetCurrentSchemeIdQuery();
   const currentSchemeDocId = data?.id;
 
   return useQuery({
     queryKey: [currentSchemeDocId, paletteGroupId],
     queryFn: () => {
-      const palettes = getPalettes(currentSchemeDocId, paletteGroupId);
+      const palettes = getAllPalettes(currentSchemeDocId, paletteGroupId);
       return palettes;
     },
     enabled: !!currentSchemeDocId,
   });
 }
 
-export default useGetPalettesQuery;
+export default useGetAllPalettesQuery;

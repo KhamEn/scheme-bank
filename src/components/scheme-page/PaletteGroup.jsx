@@ -1,10 +1,10 @@
-import useAddPaletteMutation from "../database/hooks/palettes-group/useAddPaletteMutation";
-import useGetCurrentSchemeIdQuery from "../database/hooks/useGetCurrentSchemeIdQuery";
-import useGetPalettesQuery from "../database/hooks/useGetPalettesQuery";
+import useAddPaletteMutation from "../../database/hooks/palettes/useAddPaletteMutation";
+import useGetCurrentSchemeIdQuery from "../../database/hooks/schemes/useGetCurrentSchemeIdQuery";
+import useGetAllPalettesQuery from "../../database/hooks/palettes/useGetAllPalettesQuery";
 import Palette from "./Palette";
 
 const PaletteGroup = ({ groupName }) => {
-  const { data, isLoading } = useGetPalettesQuery(groupName);
+  const { data, isLoading } = useGetAllPalettesQuery(groupName);
   const { data: currentSchemeId } = useGetCurrentSchemeIdQuery();
   const { mutate } = useAddPaletteMutation(groupName);
 
