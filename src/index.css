@@ -1,3 +1,29 @@
 @tailwind base;
+
+h1{
+    @apply text-3xl font-bold
+}
+
+h3 {
+    @apply text-xl font-semibold
+}
+
 @tailwind components;
+
+.btn {
+    @apply rounded-sm border border-gray-500 text-gray-500 
+}
+
+.btn-create {
+    @apply  hover:border-gray-100 hover:bg-green-900 hover:text-gray-100 
+}
+
+.btn-update {
+    @apply  hover:border-gray-100 hover:bg-blue-900 hover:text-gray-100 
+}
+
+.btn-delete {
+    @apply  hover:border-gray-100 hover:bg-red-900 hover:text-gray-100 
+}
+
 @tailwind utilities;

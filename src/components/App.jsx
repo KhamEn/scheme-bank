@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <div className="flex flex-row">
+        <div className="flex flex-row bg-gray-100 text-gray-900">
           <Sidebar />
           <SchemePage />
         </div>

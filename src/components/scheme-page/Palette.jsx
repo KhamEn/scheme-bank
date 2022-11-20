@@ -4,6 +4,11 @@ import useGetCurrentSchemeIdQuery from "../../database/hooks/schemes/useGetCurre
 import useUpdateColorsMutation from "../../database/hooks/colors/useUpdateColorsMutation";
 import useRenamePaletteMutation from "../../database/hooks/palettes/useRenamePaletteMutation";
 import RenameModalDialog from "../ui/RenameModalDialog";
+import {
+  TrashIcon,
+  PlusCircleIcon,
+  PencilSquareIcon,
+} from "@heroicons/react/24/outline";
 
 const Palette = ({ paletteType, docId, name, colors }) => {
   const { data, isLoading } = useGetCurrentSchemeIdQuery();
@@ -64,13 +69,19 @@ const Palette = ({ paletteType, docId, name, colors }) => {
   function listColorBlocks() {
     return colors.map((color, index) => {
       return (
-        <div key={`${docId}${color}${index}`}>
-          <div style={{ backgroundColor: color }}>{color}</div>
+        <div key={`${docId}${color}${index}`} className=" m-2 w-24 ">
+          <div
+            className="h-24 w-24 rounded-full"
+            style={{ backgroundColor: color }}
+          ></div>
+          <input type="text" value="name" className=" mt-1 w-full" />
+          <div>{color}</div>
           <button
             onClick={() => handleDeleteColorClick()(index)}
-            className=" border-4 border-red-500"
+            className="btn btn-delete flex w-full items-center justify-around p-[1px]  text-xs font-light"
           >
-            Delete Color Block
+            <TrashIcon className=" inline-block h-4" />
+            <span>Delete Color</span>
           </button>
         </div>
       );
@@ -78,27 +89,32 @@ const Palette = ({ paletteType, docId, name, colors }) => {
   }
 
   return (
-    <div className=" border border-gray-500">
-      <h3>{name}</h3>
-      <button
-        onClick={() => setIsOpen(true)}
-        className=" bg-gray-500 border-2 border-green-500"
-      >
-        Rename Palette
-      </button>
-      <button
-        className=" bg-red-500 border-2 border-black"
-        onClick={handleDeletePaletteClick}
-      >
-        Delete Palette
-      </button>
-      <button
-        onClick={handleAddColorClick}
-        className=" bg-green-500 border-2 border-black"
-      >
-        + Add Color
-      </button>
-      <div>{listColorBlocks()}</div>
+    <div className="mt-4 w-max max-w-prose rounded-md border border-gray-300 p-1 ">
+      <header className="flex items-center border-b border-gray-300 p-1">
+        <h3>{name}</h3>
+        <button
+          onClick={handleAddColorClick}
+          className="btn btn-create ml-3 flex items-center p-[2px] text-sm font-light"
+        >
+          <PlusCircleIcon className=" inline-block h-5" />
+          <span>New Color</span>
+        </button>
+        <button
+          onClick={() => setIsOpen(true)}
+          className="btn btn-update ml-3 flex items-center p-[2px] text-sm font-light"
+        >
+          <PencilSquareIcon className="inline-block h-5" />
+          <span>Rename Palette</span>
+        </button>
+        <button
+          className="btn btn-delete ml-3 flex items-center p-[2px] text-sm font-light"
+          onClick={handleDeletePaletteClick}
+        >
+          <TrashIcon className=" inline-block h-5" />
+          <span>Delete Palette</span>
+        </button>
+      </header>
+      <div className="flex  flex-wrap ">{listColorBlocks()}</div>
       <RenameModalDialog
         rename={handleRenamePaletteClick}
         originalName={name}

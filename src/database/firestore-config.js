@@ -8,10 +8,10 @@ const firebaseConfig = {
   storageBucket: "palette-bank.appspot.com",
   messagingSenderId: "1059735556440",
   appId: "1:1059735556440:web:1419101fa2e8f686af552d",
-  measurementId: "G-8PELP3B3JQ"
+  measurementId: "G-8PELP3B3JQ",
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export default db
+export default db;

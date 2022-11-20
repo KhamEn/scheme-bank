@@ -18,7 +18,7 @@ const SidebarExpanded = ({ collapseSidebar }) => {
   }
 
   return (
-    <nav className={"h-screen p-2 flex flex-col bg-gray-500/25 "}>
+    <nav className={"flex h-screen flex-col bg-gray-500/25 p-2"}>
       <ul>
         <button onClick={collapseSidebar}>
           <ArrowLeftOnRectangleIcon className=" h-6 w-6" />
