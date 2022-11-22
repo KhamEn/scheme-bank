@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { doc, deleteDoc } from "firebase/firestore";
 import db from "../../firestore-config";
-import { FIRESTORE_COLLECTION } from "../../Enums";
+import { firestoreCollection } from "../../Enums";
 import useGetCurrentSchemeIdQuery from "../schemes/useGetCurrentSchemeIdQuery";
 
 /*
@@ -13,7 +13,7 @@ async function deletePalette(variables) {
   await deleteDoc(
     doc(
       db,
-      FIRESTORE_COLLECTION.schemes,
+      firestoreCollection.SCHEMES,
       variables.schemeId,
       variables.paletteTypeId,
       variables.paletteId

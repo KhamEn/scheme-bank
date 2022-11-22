@@ -1,7 +1,8 @@
+import { Menu } from "@headlessui/react";
 import useGetCurrentSchemeIdQuery from "../../database/hooks/schemes/useGetCurrentSchemeIdQuery";
 import useSelectSchemeMutation from "../../database/hooks/schemes/useSetCurrentSchemeMutation";
 
-const SchemeListItem = ({ id, name }) => {
+const MenuItem = ({ id, name }) => {
   const { data, isLoading } = useGetCurrentSchemeIdQuery();
   const { mutate } = useSelectSchemeMutation();
 
@@ -11,34 +12,37 @@ const SchemeListItem = ({ id, name }) => {
 
   if (isLoading) {
     return (
-      <li
-        className=" m-2 rounded border border-black bg-white p-1 text-black hover:cursor-pointer hover:bg-black/50 hover:text-white/80"
+      <Menu.Item
+        as="div"
+        className=" m-2 rounded-sm border border-black bg-white p-1 text-black hover:cursor-pointer hover:bg-black/50 hover:text-white/80"
         onClick={handleClick}
       >
         {name}
-      </li>
+      </Menu.Item>
     );
   } else {
     if (data.id === id) {
       return (
-        <li
-          className="m-2 rounded border border-black bg-black  p-1  text-white hover:cursor-pointer"
+        <Menu.Item
+          as="div"
+          className="m-2 rounded-sm  border border-black bg-black  p-1  text-white hover:cursor-pointer"
           onClick={handleClick}
         >
           {name}
-        </li>
+        </Menu.Item>
       );
     } else {
       return (
-        <li
-          className=" m-2 rounded border border-black bg-white p-1 text-black hover:cursor-pointer hover:bg-black/80 hover:text-white/80"
+        <Menu.Item
+          as="div"
+          className=" m-2 rounded-sm  border border-black bg-white p-1 text-black hover:cursor-pointer hover:bg-black/80 hover:text-white/80"
           onClick={handleClick}
         >
           {name}
-        </li>
+        </Menu.Item>
       );
     }
   }
 };
 
-export default SchemeListItem;
+export default MenuItem;

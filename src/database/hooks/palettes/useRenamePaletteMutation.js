@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { doc, updateDoc } from "firebase/firestore";
 import db from "../../firestore-config";
-import { FIRESTORE_COLLECTION } from "../../Enums";
+import { firestoreCollection } from "../../Enums";
 import useGetCurrentSchemeIdQuery from "../schemes/useGetCurrentSchemeIdQuery";
 
 /*
@@ -13,7 +13,7 @@ import useGetCurrentSchemeIdQuery from "../schemes/useGetCurrentSchemeIdQuery";
 async function renamePalette(variables) {
   const paletteRef = doc(
     db,
-    FIRESTORE_COLLECTION.schemes,
+    firestoreCollection.SCHEMES,
     variables.schemeId,
     variables.paletteType,
     variables.paletteId

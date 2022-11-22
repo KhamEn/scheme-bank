@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { doc, getDoc } from "firebase/firestore";
 import db from "../../firestore-config";
-import { FIRESTORE_COLLECTION } from "../../Enums";
+import { firestoreCollection, queryKeys } from "../../Enums";
 
 async function fetchCurrentSchemeDocId() {
-  const docRef = doc(db, FIRESTORE_COLLECTION.currentScheme, "ID");
+  const docRef = doc(db, firestoreCollection.CURRENT_SCHEME, "ID");
   const docSnap = await getDoc(docRef);
 
   return docSnap.data();
@@ -12,7 +12,7 @@ async function fetchCurrentSchemeDocId() {
 
 function useGetCurrentSchemeIdQuery() {
   return useQuery(
-    [FIRESTORE_COLLECTION.currentScheme],
+    [...queryKeys.GET_CURRENT_SCHEME_ID],
     fetchCurrentSchemeDocId
   );
 }

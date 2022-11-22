@@ -1,14 +1,16 @@
 import { getDocs, collection } from "firebase/firestore";
 import { useQuery } from "@tanstack/react-query";
 import db from "../../firestore-config";
-import { FIRESTORE_COLLECTION } from "../../Enums";
+import { firestoreCollection } from "../../Enums";
 import useGetCurrentSchemeIdQuery from "../schemes/useGetCurrentSchemeIdQuery";
 
-//  return: a map (key: docId, value: palette{name, colors})
+/*
+@return: a map (key: docId, value: palette{name, colors})
+*/
 async function getAllPalettes(currentSchemeDocId, paletteGroupId) {
   const palettesRef = collection(
     db,
-    FIRESTORE_COLLECTION.schemes,
+    firestoreCollection.SCHEMES,
     currentSchemeDocId,
     paletteGroupId
   );
@@ -18,6 +20,9 @@ async function getAllPalettes(currentSchemeDocId, paletteGroupId) {
   return palettes;
 }
 
+/*
+Get all palettes of a specific palette type (primary, neutral, accent)
+*/
 function useGetAllPalettesQuery(paletteGroupId) {
   const { data } = useGetCurrentSchemeIdQuery();
   const currentSchemeDocId = data?.id;
