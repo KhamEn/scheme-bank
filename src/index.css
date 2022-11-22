@@ -11,19 +11,19 @@ h3 {
 @tailwind components;
 
 .btn {
-    @apply rounded-sm border border-gray-500 text-gray-500 
+    @apply rounded-sm border border-gray-500 text-gray-500 transform hover:-translate-y-0.5 transition
 }
 
 .btn-create {
-    @apply  hover:border-gray-100 hover:bg-green-900 hover:text-gray-100 
+    @apply  hover:border-green-900 hover:bg-green-900 hover:text-gray-100 
 }
 
 .btn-update {
-    @apply  hover:border-gray-100 hover:bg-blue-900 hover:text-gray-100 
+    @apply  hover:border-blue-900 hover:bg-blue-900 hover:text-gray-100 
 }
 
 .btn-delete {
-    @apply  hover:border-gray-100 hover:bg-red-900 hover:text-gray-100 
+    @apply  hover:border-red-900 hover:bg-red-900 hover:text-gray-100 
 }
 
 @tailwind utilities;
