@@ -9,11 +9,6 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        {/* <div className="flex flex-row bg-gray-100 text-gray-900">
-          <Sidebar />
-          <SchemePage />
-        </div> */}
-        {/* <Sidebar /> */}
         <Topbar />
         <SchemePage />
         <ReactQueryDevtools />

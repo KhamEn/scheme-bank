@@ -3,7 +3,7 @@ import useDeletePaletteMutation from "../../database/hooks/palettes/useDeletePal
 import useGetCurrentSchemeIdQuery from "../../database/hooks/schemes/useGetCurrentSchemeIdQuery";
 import useUpdateColorsMutation from "../../database/hooks/colors/useUpdateColorsMutation";
 import useRenamePaletteMutation from "../../database/hooks/palettes/useRenamePaletteMutation";
-import RenameModalDialog from "../ui/RenameModalDialog";
+import ModalDialog from "../util/ModalDialog";
 import {
   TrashIcon,
   PlusCircleIcon,
@@ -89,6 +89,7 @@ const Palette = ({ paletteType, docId, name, colors }) => {
   }
 
   return (
+    // negative z-index, otherwise it stays on top of the drop down menu.  (positioned value is required to enable z-index)
     <div className="mt-4 w-max max-w-prose rounded-md border border-gray-300 p-1 ">
       <header className="flex items-center border-b border-gray-300 p-1">
         <h3>{name}</h3>
@@ -115,8 +116,9 @@ const Palette = ({ paletteType, docId, name, colors }) => {
         </button>
       </header>
       <div className="flex  flex-wrap ">{listColorBlocks()}</div>
-      <RenameModalDialog
-        rename={handleRenamePaletteClick}
+      <ModalDialog
+        onConfirm={handleRenamePaletteClick}
+        dialogTitle="Rename Palette"
         originalName={name}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
