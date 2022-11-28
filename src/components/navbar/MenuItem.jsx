@@ -1,47 +1,58 @@
 import { Menu } from "@headlessui/react";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import useDeleteSchemeMutation from "../../database/hooks/schemes/useDeleteSchemeMutation";
 import useGetCurrentSchemeIdQuery from "../../database/hooks/schemes/useGetCurrentSchemeIdQuery";
 import useSelectSchemeMutation from "../../database/hooks/schemes/useSetCurrentSchemeMutation";
 
-const MenuItem = ({ id, name }) => {
+const MenuItem = ({ id, name, onDelete }) => {
   const { data, isLoading } = useGetCurrentSchemeIdQuery();
-  const { mutate } = useSelectSchemeMutation();
+  const { mutate: useSelectSchemeMutate } = useSelectSchemeMutation();
+  const { mutate: useDeleteSchemeMutate } = useDeleteSchemeMutation();
 
-  function handleClick() {
-    mutate(id);
+  function handleDeleteClick() {
+    const variables = {
+      dialogTitle: `Delete "${name}"?`,
+      deleteScheme: () => {
+        useDeleteSchemeMutate({ id: id });
+      },
+    };
+    onDelete(variables);
   }
 
-  if (isLoading) {
+  function selectScheme() {
+    useSelectSchemeMutate(id);
+  }
+
+  if (isLoading || data.id !== id) {
     return (
-      <Menu.Item
-        as="div"
-        className=" m-2 rounded-sm border border-black bg-white p-1 text-black hover:cursor-pointer hover:bg-black/50 hover:text-white/80"
-        onClick={handleClick}
-      >
-        {name}
-      </Menu.Item>
+      <div className="flex items-center gap-1 p-1 ">
+        <Menu.Item
+          as="button"
+          onClick={handleDeleteClick}
+          className="transform rounded-sm border border-gray-500 p-1 text-gray-500 transition ui-active:-translate-y-0.5 ui-active:border-red-500 ui-active:bg-red-500 ui-active:text-gray-100"
+        >
+          <TrashIcon className="h-4 w-4" />
+        </Menu.Item>
+        <Menu.Item
+          as="button"
+          onClick={selectScheme}
+          className="w-full transform rounded-sm border border-gray-900 bg-gray-100 p-1 text-gray-900 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer ui-active:bg-gray-900 ui-active:text-gray-100 "
+        >
+          {name}
+        </Menu.Item>
+      </div>
     );
   } else {
-    if (data.id === id) {
-      return (
-        <Menu.Item
-          as="div"
-          className="m-2 rounded-sm  border border-black bg-black  p-1  text-white hover:cursor-pointer"
-          onClick={handleClick}
+    return (
+      <Menu.Item as="button" className="flex items-center gap-1 p-1">
+        <span
+          className="w-full transform rounded-sm border border-gray-900  bg-gray-900 p-1 text-gray-100 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer "
+          onClick={selectScheme}
         >
           {name}
-        </Menu.Item>
-      );
-    } else {
-      return (
-        <Menu.Item
-          as="div"
-          className=" m-2 rounded-sm  border border-black bg-white p-1 text-black hover:cursor-pointer hover:bg-black/80 hover:text-white/80"
-          onClick={handleClick}
-        >
-          {name}
-        </Menu.Item>
-      );
-    }
+        </span>
+      </Menu.Item>
+    );
   }
 };
 

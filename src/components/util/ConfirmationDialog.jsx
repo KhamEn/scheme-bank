@@ -1,24 +1,9 @@
-import { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 
-const ModalDialog = ({
-  isOpen,
-  setIsOpen,
-  dialogTitle,
-  originalName,
-  onConfirm,
-}) => {
-  const [nameInput, setNameInput] = useState(originalName);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setNameInput(originalName);
-    }
-  }, [isOpen]);
-
+const ConfirmationDialog = ({ isOpen, setIsOpen, dialogTitle, onConfirm }) => {
   function handleConfirmClick() {
+    onConfirm();
     setIsOpen(false);
-    onConfirm(nameInput);
   }
 
   function handleCancelClick() {
@@ -40,20 +25,12 @@ const ModalDialog = ({
           <Dialog.Title className=" text-xl font-bold  text-gray-900 ">
             {dialogTitle}
           </Dialog.Title>
-          <input
-            autoFocus
-            type="text"
-            value={nameInput}
-            onChange={(e) => setNameInput(e.target.value)}
-            maxLength="25"
-            className="mt-4 p-2"
-          />
           <div className="mt-4 flex justify-evenly gap-2">
             <button
               onClick={handleConfirmClick}
-              className="btn btn-create w-full p-[2px]"
+              className="btn btn-delete w-full p-[2px]"
             >
-              Confirm
+              Delete
             </button>
             <button
               onClick={handleCancelClick}
@@ -68,4 +45,4 @@ const ModalDialog = ({
   );
 };
 
-export default ModalDialog;
+export default ConfirmationDialog;

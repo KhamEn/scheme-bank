@@ -77,7 +77,7 @@ const Palette = ({ paletteType, docId, name, colors }) => {
           <input type="text" value="name" className=" mt-1 w-full" />
           <div>{color}</div>
           <button
-            onClick={() => handleDeleteColorClick()(index)}
+            onClick={() => handleDeleteColorClick(index)}
             className="btn btn-delete flex w-full items-center justify-around p-[1px]  text-xs font-light"
           >
             <TrashIcon className=" inline-block h-4" />
