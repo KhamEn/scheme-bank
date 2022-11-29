@@ -63,7 +63,10 @@ const DropdownMenu = () => {
   }
 
   return (
-    <Menu as="div" className=" w-fit ">
+    <Menu
+      as="div"
+      className="w-fit ui-open:bg-gray-200 sm:ui-open:bg-transparent"
+    >
       <div className="flex items-center">
         <Menu.Button
           className={
@@ -77,7 +80,7 @@ const DropdownMenu = () => {
         )}
       </div>
 
-      <Menu.Items className="ml-2 flex flex-col gap-3 rounded-sm bg-gray-200 p-4">
+      <Menu.Items className="flex h-screen w-screen flex-col gap-3 rounded-sm bg-gray-200 p-4 sm:ml-2 sm:h-full sm:w-full">
         {!allSchemesIsLoading && listSchemes()}
         <Menu.Item
           as="button"

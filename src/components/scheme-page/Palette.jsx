@@ -69,19 +69,19 @@ const Palette = ({ paletteType, docId, name, colors }) => {
   function listColorBlocks() {
     return colors.map((color, index) => {
       return (
-        <div key={`${docId}${color}${index}`} className=" m-2 w-24 ">
+        <div key={`${docId}${color}${index}`} className="m-2 w-16 sm:w-24 ">
           <div
-            className="h-24 w-24 rounded-full"
+            className="h-16 w-16 rounded-full sm:h-24 sm:w-24"
             style={{ backgroundColor: color }}
           ></div>
           <input type="text" value="name" className=" mt-1 w-full" />
           <div>{color}</div>
           <button
             onClick={() => handleDeleteColorClick(index)}
-            className="btn btn-delete flex w-full items-center justify-around p-[1px]  text-xs font-light"
+            className="btn btn-delete p-[1px] text-xs font-light"
           >
             <TrashIcon className=" inline-block h-4" />
-            <span>Delete Color</span>
+            {/* <span>Delete Color</span> */}
           </button>
         </div>
       );
@@ -89,26 +89,25 @@ const Palette = ({ paletteType, docId, name, colors }) => {
   }
 
   return (
-    // negative z-index, otherwise it stays on top of the drop down menu.  (positioned value is required to enable z-index)
-    <div className="mt-4 w-max max-w-prose rounded-md border border-gray-300 p-1 ">
-      <header className="flex items-center border-b border-gray-300 p-1">
+    <div className="mt-4 w-max max-w-full rounded-md border border-gray-300 p-1 ">
+      <header className="flex flex-wrap items-center gap-1 border-b border-gray-300 p-1">
         <h3>{name}</h3>
         <button
           onClick={handleAddColorClick}
-          className="btn btn-create ml-3 flex items-center p-[2px] text-sm font-light"
+          className="btn btn-create flex items-center p-[2px] text-xs font-extralight sm:text-sm sm:font-light"
         >
           <PlusCircleIcon className=" inline-block h-5" />
           <span>New Color</span>
         </button>
         <button
           onClick={() => setShowRenamePaletteDialog(true)}
-          className="btn btn-update ml-3 flex items-center p-[2px] text-sm font-light"
+          className="btn btn-update flex items-center p-[2px] text-xs font-extralight sm:text-sm sm:font-light"
         >
           <PencilSquareIcon className="inline-block h-5" />
           <span>Rename Palette</span>
         </button>
         <button
-          className="btn btn-delete ml-3 flex items-center p-[2px] text-sm font-light"
+          className="btn btn-delete flex items-center p-[2px] text-xs font-extralight sm:text-sm sm:font-light"
           onClick={handleDeletePaletteClick}
         >
           <TrashIcon className=" inline-block h-5" />
