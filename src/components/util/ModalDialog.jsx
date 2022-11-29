@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 
 const ModalDialog = ({
@@ -9,12 +9,6 @@ const ModalDialog = ({
   onConfirm,
 }) => {
   const [nameInput, setNameInput] = useState(originalName);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setNameInput(originalName);
-    }
-  }, [isOpen]);
 
   function handleConfirmClick() {
     setIsOpen(false);

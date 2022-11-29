@@ -1,13 +1,28 @@
 import { Menu } from "@headlessui/react";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { TrashIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import useDeleteSchemeMutation from "../../database/hooks/schemes/useDeleteSchemeMutation";
 import useGetCurrentSchemeIdQuery from "../../database/hooks/schemes/useGetCurrentSchemeIdQuery";
+import useRenameSchemeMutation from "../../database/hooks/schemes/useRenameSchemeMutation";
 import useSelectSchemeMutation from "../../database/hooks/schemes/useSetCurrentSchemeMutation";
 
-const MenuItem = ({ id, name, onDelete }) => {
+const MenuItem = ({ id, name, onRename, onDelete }) => {
   const { data, isLoading } = useGetCurrentSchemeIdQuery();
   const { mutate: useSelectSchemeMutate } = useSelectSchemeMutation();
+  const { mutate: useRenameSchemeMutate } = useRenameSchemeMutation();
   const { mutate: useDeleteSchemeMutate } = useDeleteSchemeMutation();
+
+  function handleRenameClick() {
+    const variables = {
+      originalName: name,
+      renameScheme: (newName) => {
+        useRenameSchemeMutate({
+          schemeId: id,
+          newName: newName,
+        });
+      },
+    };
+    onRename(variables);
+  }
 
   function handleDeleteClick() {
     const variables = {
@@ -25,20 +40,27 @@ const MenuItem = ({ id, name, onDelete }) => {
 
   if (isLoading || data.id !== id) {
     return (
-      <div className="flex items-center gap-1 p-1 ">
+      <div className="flex gap-1 p-1">
+        <Menu.Item
+          as="button"
+          onClick={selectScheme}
+          className="h-full w-full transform rounded-sm border border-gray-900 bg-gray-100 p-1 text-gray-900 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer ui-active:bg-gray-900 ui-active:text-gray-100"
+        >
+          {name}
+        </Menu.Item>
+        <Menu.Item
+          as="button"
+          onClick={handleRenameClick}
+          className="transform rounded-sm border border-gray-500 p-1 text-gray-500 transition ui-active:-translate-y-0.5 ui-active:border-blue-500 ui-active:bg-blue-500 ui-active:text-gray-100"
+        >
+          <PencilSquareIcon className="h-4 w-4" />
+        </Menu.Item>
         <Menu.Item
           as="button"
           onClick={handleDeleteClick}
           className="transform rounded-sm border border-gray-500 p-1 text-gray-500 transition ui-active:-translate-y-0.5 ui-active:border-red-500 ui-active:bg-red-500 ui-active:text-gray-100"
         >
           <TrashIcon className="h-4 w-4" />
-        </Menu.Item>
-        <Menu.Item
-          as="button"
-          onClick={selectScheme}
-          className="w-full transform rounded-sm border border-gray-900 bg-gray-100 p-1 text-gray-900 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer ui-active:bg-gray-900 ui-active:text-gray-100 "
-        >
-          {name}
         </Menu.Item>
       </div>
     );

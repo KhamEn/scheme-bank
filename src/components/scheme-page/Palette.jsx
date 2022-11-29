@@ -16,10 +16,10 @@ const Palette = ({ paletteType, docId, name, colors }) => {
   const { mutate: mutateDeletePalette } = useDeletePaletteMutation(paletteType);
   const { mutate: mutateRenamePalette } = useRenamePaletteMutation(paletteType);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [showRenamePaletteDialog, setShowRenamePaletteDialog] = useState(false);
 
   function handleRenamePaletteClick(newName) {
-    setIsOpen(false);
+    setShowRenamePaletteDialog(false);
 
     const variables = {
       schemeId: data.id,
@@ -101,7 +101,7 @@ const Palette = ({ paletteType, docId, name, colors }) => {
           <span>New Color</span>
         </button>
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={() => setShowRenamePaletteDialog(true)}
           className="btn btn-update ml-3 flex items-center p-[2px] text-sm font-light"
         >
           <PencilSquareIcon className="inline-block h-5" />
@@ -116,13 +116,16 @@ const Palette = ({ paletteType, docId, name, colors }) => {
         </button>
       </header>
       <div className="flex  flex-wrap ">{listColorBlocks()}</div>
-      <ModalDialog
-        onConfirm={handleRenamePaletteClick}
-        dialogTitle="Rename Palette"
-        originalName={name}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-      />
+
+      {showRenamePaletteDialog && (
+        <ModalDialog
+          onConfirm={handleRenamePaletteClick}
+          dialogTitle="Rename Palette"
+          originalName={name}
+          isOpen={showRenamePaletteDialog}
+          setIsOpen={setShowRenamePaletteDialog}
+        />
+      )}
     </div>
   );
 };

@@ -15,16 +15,32 @@ const DropdownMenu = () => {
     useGetAllSchemesQuery();
   const { mutate } = useCreateAndSelectSchemeMutation();
 
-  const [newSchemeDialogIsOpen, setNewSchemeDialogIsOpen] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [deleteDialogVariables, setDeleteDialogVariables] = useState({});
+  const [dataForDeleting, setDataForDeleting] = useState({});
+  const [showRenameDialog, setShowRenameDialog] = useState(false);
+  const [dataForRenaming, setDataForRenaming] = useState({});
+  const [showNewSchemeDialog, setShowNewSchemeDialog] = useState(false);
 
   function handleNewPaletteClick(schemeName) {
     mutate(schemeName);
   }
 
-  function showDeleteConfirmationDialog(variables) {
-    setDeleteDialogVariables(variables);
+  /*
+  A callback function for Menu Items.  It is used to pass the necessary data of the scheme required to rename said scheme.
+  (Callback function is necessary for the same reasons stated in onDeleteScheme())
+  */
+  function onRenameScheme(variables) {
+    setDataForRenaming(variables);
+    setShowRenameDialog(true);
+  }
+
+  /*
+  A callback function for Menu Items.  It is used to pass the necessary data of the scheme required to delete said scheme.
+  The delete confirmation component is required to stay within the Menu component, but outside of MenuItems component.
+  Otherwise, the confirmation component is never shown since it is a child of MenuItems and the menu is closed when a Menu Item is clicked (i.e. clicking on the button to delete the scheme)
+  */
+  function onDeleteScheme(variables) {
+    setDataForDeleting(variables);
     setShowDeleteDialog(true);
   }
 
@@ -37,7 +53,8 @@ const DropdownMenu = () => {
           key={docId}
           id={docId}
           name={scheme.name}
-          onDelete={showDeleteConfirmationDialog}
+          onRename={onRenameScheme}
+          onDelete={onDeleteScheme}
         />
       );
     }
@@ -64,9 +81,7 @@ const DropdownMenu = () => {
         {!allSchemesIsLoading && listSchemes()}
         <Menu.Item
           as="button"
-          onClick={() =>
-            setNewSchemeDialogIsOpen((modalIsOpen) => !modalIsOpen)
-          }
+          onClick={() => setShowNewSchemeDialog((modalIsOpen) => !modalIsOpen)}
           className="mt-3 flex w-full transform items-center justify-center gap-2 border border-gray-500 p-1 text-base  font-semibold text-gray-500 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer ui-active:border-gray-100 ui-active:bg-green-500 ui-active:text-gray-100"
         >
           <PlusCircleIcon className="h-5 w-5" />
@@ -74,19 +89,32 @@ const DropdownMenu = () => {
         </Menu.Item>
       </Menu.Items>
 
-      <ConfirmationDialog
-        isOpen={showDeleteDialog}
-        setIsOpen={setShowDeleteDialog}
-        dialogTitle={deleteDialogVariables.dialogTitle}
-        onConfirm={deleteDialogVariables.deleteScheme}
-      />
-      <ModalDialog
-        isOpen={newSchemeDialogIsOpen}
-        setIsOpen={setNewSchemeDialogIsOpen}
-        dialogTitle="New Scheme"
-        originalName="anon scheme"
-        onConfirm={handleNewPaletteClick}
-      />
+      {showDeleteDialog && (
+        <ConfirmationDialog
+          isOpen={showDeleteDialog}
+          setIsOpen={setShowDeleteDialog}
+          dialogTitle={dataForDeleting.dialogTitle}
+          onConfirm={dataForDeleting.deleteScheme}
+        />
+      )}
+      {showRenameDialog && (
+        <ModalDialog
+          isOpen={showRenameDialog}
+          setIsOpen={setShowRenameDialog}
+          dialogTitle="Rename Scheme"
+          originalName={dataForRenaming.originalName}
+          onConfirm={dataForRenaming.renameScheme}
+        />
+      )}
+      {showNewSchemeDialog && (
+        <ModalDialog
+          isOpen={showNewSchemeDialog}
+          setIsOpen={setShowNewSchemeDialog}
+          dialogTitle="New Scheme"
+          originalName="anon scheme"
+          onConfirm={handleNewPaletteClick}
+        />
+      )}
     </Menu>
   );
 };
