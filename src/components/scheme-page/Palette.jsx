@@ -4,6 +4,7 @@ import useGetCurrentSchemeIdQuery from "../../database/hooks/schemes/useGetCurre
 import useUpdateColorsMutation from "../../database/hooks/colors/useUpdateColorsMutation";
 import useRenamePaletteMutation from "../../database/hooks/palettes/useRenamePaletteMutation";
 import ModalDialog from "../util/ModalDialog";
+import ColorBlock from "./ColorBlock";
 import {
   TrashIcon,
   PlusCircleIcon,
@@ -18,7 +19,7 @@ const Palette = ({ paletteType, docId, name, colors }) => {
 
   const [showRenamePaletteDialog, setShowRenamePaletteDialog] = useState(false);
 
-  function handleRenamePaletteClick(newName) {
+  function renamePalette(newName) {
     setShowRenamePaletteDialog(false);
 
     const variables = {
@@ -30,7 +31,7 @@ const Palette = ({ paletteType, docId, name, colors }) => {
     mutateRenamePalette(variables);
   }
 
-  function handleDeletePaletteClick() {
+  function deletePalette() {
     const variables = {
       schemeId: data.id,
       paletteTypeId: paletteType,
@@ -39,7 +40,7 @@ const Palette = ({ paletteType, docId, name, colors }) => {
     mutateDeletePalette(variables);
   }
 
-  function handleAddColorClick() {
+  function addNewColor() {
     if (!isLoading) {
       const variables = {
         currentSchemeId: data.id,
@@ -51,9 +52,9 @@ const Palette = ({ paletteType, docId, name, colors }) => {
     }
   }
 
-  function handleDeleteColorClick(targetIndex) {
+  function updateColor(colorIndex, newColor) {
     if (!isLoading) {
-      colors.splice(targetIndex, 1);
+      colors[colorIndex] = newColor;
 
       const variables = {
         currentSchemeId: data.id,
@@ -66,34 +67,27 @@ const Palette = ({ paletteType, docId, name, colors }) => {
     }
   }
 
-  function listColorBlocks() {
-    return colors.map((color, index) => {
-      return (
-        <div key={`${docId}${color}${index}`} className="m-2 w-16 sm:w-24 ">
-          <div
-            className="h-16 w-16 rounded-full sm:h-24 sm:w-24"
-            style={{ backgroundColor: color }}
-          ></div>
-          <input type="text" value="name" className=" mt-1 w-full" />
-          <div>{color}</div>
-          <button
-            onClick={() => handleDeleteColorClick(index)}
-            className="btn btn-delete p-[1px] text-xs font-light"
-          >
-            <TrashIcon className=" inline-block h-4" />
-            {/* <span>Delete Color</span> */}
-          </button>
-        </div>
-      );
-    });
+  function deleteColor(colorIndex) {
+    if (!isLoading) {
+      colors.splice(colorIndex, 1);
+
+      const variables = {
+        currentSchemeId: data.id,
+        paletteGroup: paletteType,
+        paletteId: docId,
+        updatedColors: colors,
+      };
+
+      mutateUpdatePalette(variables);
+    }
   }
 
   return (
-    <div className="mt-4 w-max max-w-full rounded-md border border-gray-300 p-1 ">
+    <article className="mt-4 w-max max-w-full rounded-md border border-gray-300 p-1 ">
       <header className="flex flex-wrap items-center gap-1 border-b border-gray-300 p-1">
         <h3>{name}</h3>
         <button
-          onClick={handleAddColorClick}
+          onClick={addNewColor}
           className="btn btn-create flex items-center p-[2px] text-xs font-extralight sm:text-sm sm:font-light"
         >
           <PlusCircleIcon className=" inline-block h-5" />
@@ -108,24 +102,37 @@ const Palette = ({ paletteType, docId, name, colors }) => {
         </button>
         <button
           className="btn btn-delete flex items-center p-[2px] text-xs font-extralight sm:text-sm sm:font-light"
-          onClick={handleDeletePaletteClick}
+          onClick={deletePalette}
         >
           <TrashIcon className=" inline-block h-5" />
           <span>Delete Palette</span>
         </button>
       </header>
-      <div className="flex  flex-wrap ">{listColorBlocks()}</div>
+
+      <main className="flex  flex-wrap ">
+        {colors.map((color, index) => {
+          return (
+            <ColorBlock
+              key={`${docId}${color}${index}`}
+              index={index}
+              color={color}
+              onUpdate={updateColor}
+              onDelete={deleteColor}
+            />
+          );
+        })}
+      </main>
 
       {showRenamePaletteDialog && (
         <ModalDialog
-          onConfirm={handleRenamePaletteClick}
+          onConfirm={renamePalette}
           dialogTitle="Rename Palette"
           originalName={name}
           isOpen={showRenamePaletteDialog}
           setIsOpen={setShowRenamePaletteDialog}
         />
       )}
-    </div>
+    </article>
   );
 };
 
