@@ -20,6 +20,7 @@ async function addPalette(variables) {
     {
       name: variables.paletteName,
       colors: [],
+      colorNames: [],
     }
   );
 }

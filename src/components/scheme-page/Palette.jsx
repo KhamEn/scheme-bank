@@ -3,19 +3,22 @@ import useDeletePaletteMutation from "../../database/hooks/palettes/useDeletePal
 import useGetCurrentSchemeIdQuery from "../../database/hooks/schemes/useGetCurrentSchemeIdQuery";
 import useUpdateColorsMutation from "../../database/hooks/colors/useUpdateColorsMutation";
 import useRenamePaletteMutation from "../../database/hooks/palettes/useRenamePaletteMutation";
-import ModalDialog from "../util/ModalDialog";
+import TextInputDialog from "../util/TextInputDialog";
 import ColorBlock from "./ColorBlock";
 import {
   TrashIcon,
   PlusCircleIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
+import useUpdateColorNamesMutation from "../../database/hooks/colors/useUpdateColorNamesMutation";
 
-const Palette = ({ paletteType, docId, name, colors }) => {
+const Palette = ({ paletteType, docId, name, colors, colorNames }) => {
   const { data, isLoading } = useGetCurrentSchemeIdQuery();
-  const { mutate: mutateUpdatePalette } = useUpdateColorsMutation(paletteType);
   const { mutate: mutateDeletePalette } = useDeletePaletteMutation(paletteType);
   const { mutate: mutateRenamePalette } = useRenamePaletteMutation(paletteType);
+  const { mutate: mutateUpdateColors } = useUpdateColorsMutation(paletteType);
+  const { mutate: mutateUpdateColorNames } =
+    useUpdateColorNamesMutation(paletteType);
 
   const [showRenamePaletteDialog, setShowRenamePaletteDialog] = useState(false);
 
@@ -40,19 +43,26 @@ const Palette = ({ paletteType, docId, name, colors }) => {
     mutateDeletePalette(variables);
   }
 
-  function addNewColor() {
+  function addColorBlock() {
     if (!isLoading) {
-      const variables = {
+      const variablesForColors = {
         currentSchemeId: data.id,
         paletteGroup: paletteType,
         paletteId: docId,
         updatedColors: colors.concat("#000"),
       };
-      mutateUpdatePalette(variables);
+      const variablesForColorNames = {
+        currentSchemeId: data.id,
+        paletteGroup: paletteType,
+        paletteId: docId,
+        updatedColorNames: colorNames.concat("nucolo"),
+      };
+      mutateUpdateColors(variablesForColors);
+      mutateUpdateColorNames(variablesForColorNames);
     }
   }
 
-  function updateColor(colorIndex, newColor) {
+  function changeColor(colorIndex, newColor) {
     if (!isLoading) {
       colors[colorIndex] = newColor;
 
@@ -63,22 +73,45 @@ const Palette = ({ paletteType, docId, name, colors }) => {
         updatedColors: colors,
       };
 
-      mutateUpdatePalette(variables);
+      mutateUpdateColors(variables);
     }
   }
 
-  function deleteColor(colorIndex) {
+  function renameColor(colorIndex, newName) {
     if (!isLoading) {
-      colors.splice(colorIndex, 1);
+      colorNames[colorIndex] = newName;
 
       const variables = {
         currentSchemeId: data.id,
         paletteGroup: paletteType,
         paletteId: docId,
-        updatedColors: colors,
+        updatedColorNames: colorNames,
       };
 
-      mutateUpdatePalette(variables);
+      mutateUpdateColorNames(variables);
+    }
+  }
+
+  function deleteColorBlock(colorIndex) {
+    if (!isLoading) {
+      colors.splice(colorIndex, 1);
+      colorNames.splice(colorIndex, 1);
+
+      const variablesForColors = {
+        currentSchemeId: data.id,
+        paletteGroup: paletteType,
+        paletteId: docId,
+        updatedColors: colors,
+      };
+      const variablesForColorNames = {
+        currentSchemeId: data.id,
+        paletteGroup: paletteType,
+        paletteId: docId,
+        updatedColorNames: colorNames,
+      };
+
+      mutateUpdateColors(variablesForColors);
+      mutateUpdateColorNames(variablesForColorNames);
     }
   }
 
@@ -87,10 +120,10 @@ const Palette = ({ paletteType, docId, name, colors }) => {
       <header className="flex flex-wrap items-center gap-1 border-b border-gray-300 p-1">
         <h3>{name}</h3>
         <button
-          onClick={addNewColor}
+          onClick={addColorBlock}
           className="btn btn-create flex items-center p-[2px] text-xs font-extralight sm:text-sm sm:font-light"
         >
-          <PlusCircleIcon className=" inline-block h-5" />
+          <PlusCircleIcon className="inline-block h-5" />
           <span>New Color</span>
         </button>
         <button
@@ -116,15 +149,17 @@ const Palette = ({ paletteType, docId, name, colors }) => {
               key={`${docId}${color}${index}`}
               index={index}
               color={color}
-              onUpdate={updateColor}
-              onDelete={deleteColor}
+              name={colorNames[index]}
+              onUpdate={changeColor}
+              onRename={renameColor}
+              onDelete={deleteColorBlock}
             />
           );
         })}
       </main>
 
       {showRenamePaletteDialog && (
-        <ModalDialog
+        <TextInputDialog
           onConfirm={renamePalette}
           dialogTitle="Rename Palette"
           originalName={name}

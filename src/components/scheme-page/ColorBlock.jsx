@@ -1,13 +1,26 @@
-import { TrashIcon } from "@heroicons/react/24/outline";
+import {
+  TrashIcon,
+  PencilSquareIcon,
+  ClipboardDocumentIcon,
+} from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { ChromePicker } from "react-color";
 import { Popover } from "@headlessui/react";
 import { useEffect } from "react";
+import TextInputDialog from "../util/TextInputDialog";
 
-const ColorBlock = ({ index, color: originalColor, onUpdate, onDelete }) => {
+const ColorBlock = ({
+  index,
+  color: originalColor,
+  name,
+  onUpdate,
+  onRename,
+  onDelete,
+}) => {
   const [color, setColor] = useState(originalColor);
   const [confirmed, setConfirmed] = useState(false);
   const [showCopyConfirmation, setShowCopyConfirmation] = useState(false);
+  const [showRenameColorDialog, setShowRenameColorDialog] = useState(false);
 
   useEffect(() => {
     if (showCopyConfirmation) {
@@ -19,12 +32,12 @@ const ColorBlock = ({ index, color: originalColor, onUpdate, onDelete }) => {
     }
   }, [showCopyConfirmation]);
 
-  function onConfirm() {
+  function onConfirmColor() {
     setConfirmed(true);
     onUpdate(index, color);
   }
 
-  function addToClipboard() {
+  function onCopyColorValue() {
     navigator.clipboard.writeText(color);
     setShowCopyConfirmation(true);
   }
@@ -51,7 +64,7 @@ const ColorBlock = ({ index, color: originalColor, onUpdate, onDelete }) => {
               />
               <div className="flex">
                 <Popover.Button
-                  onClick={onConfirm}
+                  onClick={onConfirmColor}
                   className="btn btn-create w-full bg-gray-100"
                 >
                   Confirm
@@ -68,16 +81,27 @@ const ColorBlock = ({ index, color: originalColor, onUpdate, onDelete }) => {
         )}
       </Popover>
 
-      <input type="text" value="name" className=" mt-1 w-full" disabled />
-      {showCopyConfirmation ? (
-        <div className="m-1 rounded-lg bg-gray-900 text-center text-gray-100">
-          Copied
-        </div>
-      ) : (
-        <div onClick={addToClipboard} className=" p-1 hover:cursor-pointer ">
-          {color}
-        </div>
-      )}
+      <div className="flex items-center text-sm font-light">
+        <PencilSquareIcon
+          onClick={() => setShowRenameColorDialog(true)}
+          className="transform-jump mr-1 h-6 w-6 text-gray-500 hover:cursor-pointer hover:text-blue-500"
+        />
+        <p>{name || "color name"}</p>
+      </div>
+
+      <div className="flex items-center text-sm font-light">
+        <ClipboardDocumentIcon
+          onClick={onCopyColorValue}
+          className="transform-jump mr-1 h-6 w-6 text-gray-500 hover:cursor-pointer hover:text-gray-900"
+        />
+        {showCopyConfirmation ? (
+          <div className="m-1 w-full rounded-lg bg-gray-900 text-center text-gray-100">
+            Copied
+          </div>
+        ) : (
+          <div className="p-1">{color}</div>
+        )}
+      </div>
 
       <button
         onClick={() => onDelete(index)}
@@ -85,6 +109,16 @@ const ColorBlock = ({ index, color: originalColor, onUpdate, onDelete }) => {
       >
         <TrashIcon className=" inline-block h-4" />
       </button>
+
+      {showRenameColorDialog && (
+        <TextInputDialog
+          onConfirm={(newName) => onRename(index, newName)}
+          dialogTitle="Rename Color Block"
+          originalName={name || "anon"}
+          isOpen={showRenameColorDialog}
+          setIsOpen={setShowRenameColorDialog}
+        />
+      )}
     </div>
   );
 };

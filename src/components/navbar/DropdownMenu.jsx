@@ -3,7 +3,7 @@ import { Menu } from "@headlessui/react";
 import { Bars3Icon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import useGetAllSchemesQuery from "../../database/hooks/schemes/useGetAllSchemesQuery";
 import useGetCurrentSchemeQuery from "../../database/hooks/schemes/useGetCurrentSchemeQuery";
-import ModalDialog from "../util/ModalDialog";
+import TextInputDialog from "../util/TextInputDialog";
 import MenuItem from "./MenuItem";
 import useCreateAndSelectSchemeMutation from "../../database/hooks/schemes/useCreateAndSelectSchemeMutation";
 import ConfirmationDialog from "../util/ConfirmationDialog";
@@ -101,7 +101,7 @@ const DropdownMenu = () => {
         />
       )}
       {showRenameDialog && (
-        <ModalDialog
+        <TextInputDialog
           isOpen={showRenameDialog}
           setIsOpen={setShowRenameDialog}
           dialogTitle="Rename Scheme"
@@ -110,7 +110,7 @@ const DropdownMenu = () => {
         />
       )}
       {showNewSchemeDialog && (
-        <ModalDialog
+        <TextInputDialog
           isOpen={showNewSchemeDialog}
           setIsOpen={setShowNewSchemeDialog}
           dialogTitle="New Scheme"

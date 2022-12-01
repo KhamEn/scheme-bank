@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 
-const ModalDialog = ({
+const TextInputDialog = ({
   isOpen,
   setIsOpen,
   dialogTitle,
@@ -62,4 +62,4 @@ const ModalDialog = ({
   );
 };
 
-export default ModalDialog;
+export default TextInputDialog;

@@ -30,6 +30,7 @@ const PaletteGroup = ({ groupName }) => {
           docId={docId}
           name={palette.name}
           colors={palette.colors}
+          colorNames={palette.colorNames}
         />
       );
       palettes.push(paletteComponent);
