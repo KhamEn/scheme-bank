@@ -2,14 +2,31 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { ChromePicker } from "react-color";
 import { Popover } from "@headlessui/react";
+import { useEffect } from "react";
 
 const ColorBlock = ({ index, color: originalColor, onUpdate, onDelete }) => {
   const [color, setColor] = useState(originalColor);
   const [confirmed, setConfirmed] = useState(false);
+  const [showCopyConfirmation, setShowCopyConfirmation] = useState(false);
+
+  useEffect(() => {
+    if (showCopyConfirmation) {
+      (async () => {
+        setTimeout(() => {
+          setShowCopyConfirmation(false);
+        }, "500");
+      })();
+    }
+  }, [showCopyConfirmation]);
 
   function onConfirm() {
     setConfirmed(true);
     onUpdate(index, color);
+  }
+
+  function addToClipboard() {
+    navigator.clipboard.writeText(color);
+    setShowCopyConfirmation(true);
   }
 
   return (
@@ -52,7 +69,16 @@ const ColorBlock = ({ index, color: originalColor, onUpdate, onDelete }) => {
       </Popover>
 
       <input type="text" value="name" className=" mt-1 w-full" disabled />
-      <div>{color}</div>
+      {showCopyConfirmation ? (
+        <div className="m-1 rounded-lg bg-gray-900 text-center text-gray-100">
+          Copied
+        </div>
+      ) : (
+        <div onClick={addToClipboard} className=" p-1 hover:cursor-pointer ">
+          {color}
+        </div>
+      )}
+
       <button
         onClick={() => onDelete(index)}
         className="btn btn-delete p-[1px] text-xs font-light"
