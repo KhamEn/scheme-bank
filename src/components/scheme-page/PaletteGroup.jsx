@@ -5,24 +5,24 @@ import useGetAllPalettesQuery from "../../database/hooks/palettes/useGetAllPalet
 import Palette from "./Palette";
 
 const PaletteGroup = ({ groupName }) => {
-  const { data, isLoading } = useGetAllPalettesQuery(groupName);
-  const { data: currentSchemeId } = useGetCurrentSchemeIdQuery();
-  const { mutate } = useAddPaletteMutation(groupName);
+  const allPalettesQuery = useGetAllPalettesQuery(groupName);
+  const currentSchemeIdQuery = useGetCurrentSchemeIdQuery();
+  const addPaletteMutation = useAddPaletteMutation(groupName);
 
   function handleNewPaletteClick() {
     const paletteName = "new paletteo";
     const variables = {
-      schemeId: currentSchemeId.id,
+      schemeId: currentSchemeIdQuery.data,
       paletteType: groupName,
       paletteName: paletteName,
     };
-    mutate(variables);
+    addPaletteMutation.mutate(variables);
   }
 
   function listPalettes() {
     const palettes = [];
 
-    for (const [docId, palette] of data) {
+    for (const [docId, palette] of allPalettesQuery.data) {
       const paletteComponent = (
         <Palette
           key={docId}
@@ -52,7 +52,7 @@ const PaletteGroup = ({ groupName }) => {
         </button>
       </header>
 
-      {!isLoading && listPalettes()}
+      {!allPalettesQuery.isLoading && listPalettes()}
     </div>
   );
 };

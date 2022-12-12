@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { doc, deleteDoc } from "firebase/firestore";
-import db from "../../firestore-config";
+import { auth, db } from "../../Firebase";
 import { firestoreCollection } from "../../Enums";
 import useGetCurrentSchemeIdQuery from "../schemes/useGetCurrentSchemeIdQuery";
 
@@ -10,15 +10,16 @@ import useGetCurrentSchemeIdQuery from "../schemes/useGetCurrentSchemeIdQuery";
 @param variables.paletteId - the doc id of the palette
 */
 async function deletePalette(variables) {
-  await deleteDoc(
-    doc(
-      db,
-      firestoreCollection.SCHEMES,
-      variables.schemeId,
-      variables.paletteTypeId,
-      variables.paletteId
-    )
+  const paletteDocRef = doc(
+    db,
+    firestoreCollection.BASE_COLLECTION,
+    auth.currentUser.uid,
+    firestoreCollection.SCHEMES,
+    variables.schemeId,
+    variables.paletteTypeId,
+    variables.paletteId
   );
+  await deleteDoc(paletteDocRef);
 }
 
 function useDeletePaletteMutation(paletteTypeId) {
@@ -26,7 +27,7 @@ function useDeletePaletteMutation(paletteTypeId) {
   const { data } = useGetCurrentSchemeIdQuery();
   return useMutation(deletePalette, {
     onSuccess: () => {
-      queryClient.invalidateQueries([data.id, paletteTypeId]);
+      queryClient.invalidateQueries([data, paletteTypeId]);
     },
   });
 }

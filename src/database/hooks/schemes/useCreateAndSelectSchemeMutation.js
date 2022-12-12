@@ -2,24 +2,29 @@ import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { firestoreCollection, queryKeys } from "../../Enums";
-import db from "../../firestore-config";
+import { auth, db } from "../../Firebase";
 
 /*
 Create a new scheme, and make it the current scheme
 */
 async function createAndSelectNewScheme(name) {
   // create new scheme
-  const schemesDocRef = collection(db, firestoreCollection.SCHEMES);
-  const newSchemeDocRef = await addDoc(schemesDocRef, { name: name });
+  const schemesCollectionRef = collection(
+    db,
+    firestoreCollection.BASE_COLLECTION,
+    auth.currentUser.uid,
+    firestoreCollection.SCHEMES
+  );
+  const newSchemeDocRef = await addDoc(schemesCollectionRef, { name: name });
 
   // set current
-  const currentSchemeIdDocRef = doc(
+  const userDocRef = doc(
     db,
-    firestoreCollection.CURRENT_SCHEME,
-    "ID"
+    firestoreCollection.BASE_COLLECTION,
+    auth.currentUser.uid
   );
-  await updateDoc(currentSchemeIdDocRef, {
-    id: newSchemeDocRef.id,
+  await updateDoc(userDocRef, {
+    currentSchemeId: newSchemeDocRef.id,
   });
 }
 
@@ -30,6 +35,7 @@ function useCreateAndSelectSchemeMutation() {
     onSuccess: () => {
       queryClient.invalidateQueries([...queryKeys.GET_ALL_SCHEMES]);
       queryClient.invalidateQueries([...queryKeys.GET_CURRENT_SCHEME_ID]);
+      queryClient.invalidateQueries([...queryKeys.GET_CURRENT_SCHEME]);
     },
   });
 }

@@ -1,21 +1,21 @@
 import { Menu } from "@headlessui/react";
 import { TrashIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
-import useDeleteSchemeMutation from "../../database/hooks/schemes/useDeleteSchemeMutation";
-import useGetCurrentSchemeIdQuery from "../../database/hooks/schemes/useGetCurrentSchemeIdQuery";
-import useRenameSchemeMutation from "../../database/hooks/schemes/useRenameSchemeMutation";
-import useSelectSchemeMutation from "../../database/hooks/schemes/useSetCurrentSchemeMutation";
+import useDeleteSchemeMutation from "../../../database/hooks/schemes/useDeleteSchemeMutation";
+import useGetCurrentSchemeIdQuery from "../../../database/hooks/schemes/useGetCurrentSchemeIdQuery";
+import useRenameSchemeMutation from "../../../database/hooks/schemes/useRenameSchemeMutation";
+import useSelectSchemeMutation from "../../../database/hooks/schemes/useSetCurrentSchemeMutation";
 
 const MenuItem = ({ id, name, onRename, onDelete }) => {
-  const { data, isLoading } = useGetCurrentSchemeIdQuery();
-  const { mutate: useSelectSchemeMutate } = useSelectSchemeMutation();
-  const { mutate: useRenameSchemeMutate } = useRenameSchemeMutation();
-  const { mutate: useDeleteSchemeMutate } = useDeleteSchemeMutation();
+  const currentSchemeIdQuery = useGetCurrentSchemeIdQuery();
+  const selectSchemeMutation = useSelectSchemeMutation();
+  const renameSchemeMutation = useRenameSchemeMutation();
+  const deleteSchemeMutation = useDeleteSchemeMutation();
 
   function handleRenameClick() {
     const variables = {
       originalName: name,
       renameScheme: (newName) => {
-        useRenameSchemeMutate({
+        renameSchemeMutation.mutate({
           schemeId: id,
           newName: newName,
         });
@@ -28,17 +28,17 @@ const MenuItem = ({ id, name, onRename, onDelete }) => {
     const variables = {
       dialogTitle: `Delete "${name}"?`,
       deleteScheme: () => {
-        useDeleteSchemeMutate({ id: id });
+        deleteSchemeMutation.mutate({ id: id });
       },
     };
     onDelete(variables);
   }
 
   function selectScheme() {
-    useSelectSchemeMutate(id);
+    selectSchemeMutation.mutate(id);
   }
 
-  if (isLoading || data.id !== id) {
+  if (currentSchemeIdQuery.isLoading || currentSchemeIdQuery.data !== id) {
     return (
       <div className="flex gap-1 p-1">
         <Menu.Item

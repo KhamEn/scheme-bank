@@ -1,23 +1,40 @@
 import { useQuery } from "@tanstack/react-query";
 import { doc, getDoc } from "firebase/firestore";
-import db from "../../firestore-config";
+import { auth, db } from "../../Firebase";
 import { firestoreCollection, queryKeys } from "../../Enums";
 
 async function fetchCurrentScheme() {
-  const currentSchemeIdRef = doc(db, firestoreCollection.CURRENT_SCHEME, "ID");
-  const currentSchemeIdSnap = await getDoc(currentSchemeIdRef);
-  const schemesRef = doc(
+  const userDocRef = doc(
     db,
-    firestoreCollection.SCHEMES,
-    currentSchemeIdSnap.data().id
+    firestoreCollection.BASE_COLLECTION,
+    auth.currentUser.uid
   );
-  const schemesSnap = await getDoc(schemesRef);
+  const userDocSnap = await getDoc(userDocRef);
+  if (!userDocSnap.exists()) {
+    throw new Error("User is not found.");
+  }
+  const currentSchemeId = userDocSnap.data().currentSchemeId;
 
-  return schemesSnap.data();
+  const currentSchemeDocRef = doc(
+    db,
+    firestoreCollection.BASE_COLLECTION,
+    auth.currentUser.uid,
+    firestoreCollection.SCHEMES,
+    currentSchemeId
+  );
+
+  const currentSchemeSnap = await getDoc(currentSchemeDocRef);
+  if (!currentSchemeSnap.exists()) {
+    throw new Error("Scheme is not found.");
+  }
+
+  return currentSchemeSnap.data();
 }
 
 function useGetCurrentSchemeQuery() {
-  return useQuery([...queryKeys.GET_CURRENT_SCHEME], fetchCurrentScheme);
+  return useQuery([...queryKeys.GET_CURRENT_SCHEME], fetchCurrentScheme, {
+    staleTime: Infinity,
+  });
 }
 
 export default useGetCurrentSchemeQuery;

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addDoc, collection } from "firebase/firestore";
-import db from "../../firestore-config";
+import { auth, db } from "../../Firebase";
 import { firestoreCollection } from "../../Enums";
 import useGetCurrentSchemeIdQuery from "../schemes/useGetCurrentSchemeIdQuery";
 
@@ -10,19 +10,19 @@ import useGetCurrentSchemeIdQuery from "../schemes/useGetCurrentSchemeIdQuery";
 @param variables.paletteName - the name of the new palette
 */
 async function addPalette(variables) {
-  await addDoc(
-    collection(
-      db,
-      firestoreCollection.SCHEMES,
-      variables.schemeId,
-      variables.paletteType
-    ),
-    {
-      name: variables.paletteName,
-      colors: [],
-      colorNames: [],
-    }
+  const palettesCollectionRef = collection(
+    db,
+    firestoreCollection.BASE_COLLECTION,
+    auth.currentUser.uid,
+    firestoreCollection.SCHEMES,
+    variables.schemeId,
+    variables.paletteType
   );
+  await addDoc(palettesCollectionRef, {
+    name: variables.paletteName,
+    colors: [],
+    colorNames: [],
+  });
 }
 
 function useAddPaletteMutation(paletteType) {
@@ -31,7 +31,7 @@ function useAddPaletteMutation(paletteType) {
 
   return useMutation(addPalette, {
     onSuccess: () => {
-      queryClient.invalidateQueries([data.id, paletteType]);
+      queryClient.invalidateQueries([data, paletteType]);
     },
   });
 }

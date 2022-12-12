@@ -13,12 +13,11 @@ import {
 import useUpdateColorNamesMutation from "../../database/hooks/colors/useUpdateColorNamesMutation";
 
 const Palette = ({ paletteType, docId, name, colors, colorNames }) => {
-  const { data, isLoading } = useGetCurrentSchemeIdQuery();
-  const { mutate: mutateDeletePalette } = useDeletePaletteMutation(paletteType);
-  const { mutate: mutateRenamePalette } = useRenamePaletteMutation(paletteType);
-  const { mutate: mutateUpdateColors } = useUpdateColorsMutation(paletteType);
-  const { mutate: mutateUpdateColorNames } =
-    useUpdateColorNamesMutation(paletteType);
+  const currentSchemeIdQuery = useGetCurrentSchemeIdQuery();
+  const deletePaletteMutation = useDeletePaletteMutation(paletteType);
+  const renamePaletteMutation = useRenamePaletteMutation(paletteType);
+  const updateColorsMutation = useUpdateColorsMutation(paletteType);
+  const updateColorNamesMutation = useUpdateColorNamesMutation(paletteType);
 
   const [showRenamePaletteDialog, setShowRenamePaletteDialog] = useState(false);
 
@@ -26,92 +25,92 @@ const Palette = ({ paletteType, docId, name, colors, colorNames }) => {
     setShowRenamePaletteDialog(false);
 
     const variables = {
-      schemeId: data.id,
+      schemeId: currentSchemeIdQuery.data,
       paletteType: paletteType,
       paletteId: docId,
       paletteName: newName || `random: ${Math.random() * 100}`,
     };
-    mutateRenamePalette(variables);
+    renamePaletteMutation.mutate(variables);
   }
 
   function deletePalette() {
     const variables = {
-      schemeId: data.id,
+      schemeId: currentSchemeIdQuery.data,
       paletteTypeId: paletteType,
       paletteId: docId,
     };
-    mutateDeletePalette(variables);
+    deletePaletteMutation.mutate(variables);
   }
 
   function addColorBlock() {
-    if (!isLoading) {
+    if (!currentSchemeIdQuery.isLoading) {
       const variablesForColors = {
-        currentSchemeId: data.id,
+        currentSchemeId: currentSchemeIdQuery.data,
         paletteGroup: paletteType,
         paletteId: docId,
         updatedColors: colors.concat("#000"),
       };
       const variablesForColorNames = {
-        currentSchemeId: data.id,
+        currentSchemeId: currentSchemeIdQuery.data,
         paletteGroup: paletteType,
         paletteId: docId,
         updatedColorNames: colorNames.concat("nucolo"),
       };
-      mutateUpdateColors(variablesForColors);
-      mutateUpdateColorNames(variablesForColorNames);
+      updateColorsMutation.mutate(variablesForColors);
+      updateColorNamesMutation.mutate(variablesForColorNames);
     }
   }
 
   function changeColor(colorIndex, newColor) {
-    if (!isLoading) {
+    if (!currentSchemeIdQuery.isLoading) {
       colors[colorIndex] = newColor;
 
       const variables = {
-        currentSchemeId: data.id,
+        currentSchemeId: currentSchemeIdQuery.data,
         paletteGroup: paletteType,
         paletteId: docId,
         updatedColors: colors,
       };
 
-      mutateUpdateColors(variables);
+      updateColorsMutation.mutate(variables);
     }
   }
 
   function renameColor(colorIndex, newName) {
-    if (!isLoading) {
+    if (!currentSchemeIdQuery.isLoading) {
       colorNames[colorIndex] = newName;
 
       const variables = {
-        currentSchemeId: data.id,
+        currentSchemeId: currentSchemeIdQuery.data,
         paletteGroup: paletteType,
         paletteId: docId,
         updatedColorNames: colorNames,
       };
 
-      mutateUpdateColorNames(variables);
+      updateColorNamesMutation.mutate(variables);
     }
   }
 
   function deleteColorBlock(colorIndex) {
-    if (!isLoading) {
+    if (!currentSchemeIdQuery.isLoading) {
       colors.splice(colorIndex, 1);
       colorNames.splice(colorIndex, 1);
 
       const variablesForColors = {
-        currentSchemeId: data.id,
+        currentSchemeId: currentSchemeIdQuery.data,
         paletteGroup: paletteType,
         paletteId: docId,
         updatedColors: colors,
       };
       const variablesForColorNames = {
-        currentSchemeId: data.id,
+        currentSchemeId: currentSchemeIdQuery.data,
         paletteGroup: paletteType,
         paletteId: docId,
         updatedColorNames: colorNames,
       };
 
-      mutateUpdateColors(variablesForColors);
-      mutateUpdateColorNames(variablesForColorNames);
+      updateColorsMutation.mutate(variablesForColors);
+      updateColorNamesMutation.mutate(variablesForColorNames);
     }
   }
 

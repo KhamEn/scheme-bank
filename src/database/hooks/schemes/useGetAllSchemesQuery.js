@@ -1,18 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import { getDocs, collection } from "firebase/firestore";
-import db from "../../firestore-config";
+import { auth, db } from "../../Firebase";
 import { firestoreCollection, queryKeys } from "../../Enums";
 
 /* 
   return a map of schemes (key = schemeDocumentId, value = scheme)
 */
 async function fetchAllSchemes() {
-  const schemesCollection = await getDocs(
-    collection(db, firestoreCollection.SCHEMES)
+  const schemesCollectionRef = collection(
+    db,
+    firestoreCollection.BASE_COLLECTION,
+    auth.currentUser.uid,
+    firestoreCollection.SCHEMES
   );
-  const schemes = new Map();
+  const schemesCollectionSnap = await getDocs(schemesCollectionRef);
 
-  schemesCollection.forEach((scheme) => {
+  const schemes = new Map();
+  schemesCollectionSnap.forEach((scheme) => {
     schemes.set(scheme.id, scheme.data());
   });
 

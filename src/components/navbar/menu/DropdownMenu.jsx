@@ -1,19 +1,17 @@
 import { useState } from "react";
 import { Menu } from "@headlessui/react";
 import { Bars3Icon, PlusCircleIcon } from "@heroicons/react/24/outline";
-import useGetAllSchemesQuery from "../../database/hooks/schemes/useGetAllSchemesQuery";
-import useGetCurrentSchemeQuery from "../../database/hooks/schemes/useGetCurrentSchemeQuery";
-import TextInputDialog from "../util/TextInputDialog";
+import useGetAllSchemesQuery from "../../../database/hooks/schemes/useGetAllSchemesQuery";
+import useGetCurrentSchemeQuery from "../../../database/hooks/schemes/useGetCurrentSchemeQuery";
+import TextInputDialog from "../../util/TextInputDialog";
 import MenuItem from "./MenuItem";
-import useCreateAndSelectSchemeMutation from "../../database/hooks/schemes/useCreateAndSelectSchemeMutation";
-import ConfirmationDialog from "../util/ConfirmationDialog";
+import useCreateAndSelectSchemeMutation from "../../../database/hooks/schemes/useCreateAndSelectSchemeMutation";
+import ConfirmationDialog from "../../util/ConfirmationDialog";
 
 const DropdownMenu = () => {
-  const { data: currentScheme, isLoading: currentSchemeIsLoading } =
-    useGetCurrentSchemeQuery();
-  const { data: allSchemes, isLoading: allSchemesIsLoading } =
-    useGetAllSchemesQuery();
-  const { mutate } = useCreateAndSelectSchemeMutation();
+  const currentSchemeQuery = useGetCurrentSchemeQuery();
+  const allSchemesQuery = useGetAllSchemesQuery();
+  const createAndSelectSchemeMutation = useCreateAndSelectSchemeMutation();
 
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [dataForDeleting, setDataForDeleting] = useState({});
@@ -21,8 +19,8 @@ const DropdownMenu = () => {
   const [dataForRenaming, setDataForRenaming] = useState({});
   const [showNewSchemeDialog, setShowNewSchemeDialog] = useState(false);
 
-  function handleNewPaletteClick(schemeName) {
-    mutate(schemeName);
+  function addNewPalette(schemeName) {
+    createAndSelectSchemeMutation.mutate(schemeName);
   }
 
   /*
@@ -47,7 +45,7 @@ const DropdownMenu = () => {
   function listSchemes() {
     const schemesList = [];
 
-    for (const [docId, scheme] of allSchemes) {
+    for (const [docId, scheme] of allSchemesQuery.data) {
       schemesList.push(
         <MenuItem
           key={docId}
@@ -65,7 +63,7 @@ const DropdownMenu = () => {
   return (
     <Menu
       as="div"
-      className="w-fit ui-open:bg-gray-200 sm:ui-open:bg-transparent"
+      className="h-fit w-fit ui-open:bg-gray-200 sm:ui-open:bg-transparent"
     >
       <div className="flex items-center">
         <Menu.Button
@@ -75,17 +73,21 @@ const DropdownMenu = () => {
         >
           <Bars3Icon className="h-6" />
         </Menu.Button>
-        {!currentSchemeIsLoading && (
-          <div className="mr-2 font-bold">{currentScheme.name}</div>
+        {currentSchemeQuery.isLoading ||
+        currentSchemeQuery.isStale ||
+        currentSchemeQuery.isError ? (
+          <span className="mr-2 font-bold"></span>
+        ) : (
+          <div className="mr-2 font-bold">{currentSchemeQuery.data.name}</div>
         )}
       </div>
 
       <Menu.Items className="flex h-screen w-screen flex-col gap-3 rounded-sm bg-gray-200 p-4 sm:ml-2 sm:h-full sm:w-full">
-        {!allSchemesIsLoading && listSchemes()}
+        {allSchemesQuery.isLoading ? <span>loading...</span> : listSchemes()}
         <Menu.Item
           as="button"
           onClick={() => setShowNewSchemeDialog((modalIsOpen) => !modalIsOpen)}
-          className="mt-3 flex w-full transform items-center justify-center gap-2 border border-gray-500 p-1 text-base  font-semibold text-gray-500 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer ui-active:border-gray-100 ui-active:bg-green-500 ui-active:text-gray-100"
+          className="mt-10 flex w-full transform items-center justify-center gap-2 border border-gray-500 p-1  text-base font-semibold text-gray-500 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer ui-active:border-gray-100 ui-active:bg-green-500 ui-active:text-gray-100"
         >
           <PlusCircleIcon className="h-5 w-5" />
           <span>New Scheme</span>
@@ -115,7 +117,7 @@ const DropdownMenu = () => {
           setIsOpen={setShowNewSchemeDialog}
           dialogTitle="New Scheme"
           originalName="anon scheme"
-          onConfirm={handleNewPaletteClick}
+          onConfirm={addNewPalette}
         />
       )}
     </Menu>

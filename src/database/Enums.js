@@ -1,6 +1,7 @@
 const firestoreCollection = {
-  SCHEMES: "schemesFirestore",
-  CURRENT_SCHEME: "currentScheme",
+  BASE_COLLECTION: "users",
+  SCHEMES: "schemes",
+  CURRENT_SCHEME: "currentSchemeId",
 };
 
 const firestoreSubCollection = {
@@ -22,6 +23,7 @@ const queryKeys = {
     firestoreCollection.CURRENT_SCHEME,
     "get current scheme",
   ],
+  CHECK_USER_EXISTENCE: ["Checking if the user exist already."],
 };
 
 export { paletteType, firestoreCollection, firestoreSubCollection, queryKeys };
