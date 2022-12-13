@@ -120,20 +120,20 @@ const Palette = ({ paletteType, docId, name, colors, colorNames }) => {
         <h3>{name}</h3>
         <button
           onClick={addColorBlock}
-          className="btn btn-create flex items-center p-[2px] text-xs font-extralight sm:text-sm sm:font-light"
+          className="btn btn-create flex items-center p-[2px] text-sm"
         >
           <PlusCircleIcon className="inline-block h-5" />
           <span>New Color</span>
         </button>
         <button
           onClick={() => setShowRenamePaletteDialog(true)}
-          className="btn btn-update flex items-center p-[2px] text-xs font-extralight sm:text-sm sm:font-light"
+          className="btn btn-update flex items-center p-[2px] text-sm"
         >
           <PencilSquareIcon className="inline-block h-5" />
           <span>Rename Palette</span>
         </button>
         <button
-          className="btn btn-delete flex items-center p-[2px] text-xs font-extralight sm:text-sm sm:font-light"
+          className="btn btn-delete flex items-center p-[2px] text-sm"
           onClick={deletePalette}
         >
           <TrashIcon className=" inline-block h-5" />
