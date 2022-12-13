@@ -15,11 +15,7 @@ const Userbar = () => {
     }
   });
 
-  return (
-    <div className="flex gap-1">
-      {isSignedIn ? <MemberUserbar /> : <GuestUserbar />}
-    </div>
-  );
+  return <>{isSignedIn ? <MemberUserbar /> : <GuestUserbar />}</>;
 };
 
 export default Userbar;

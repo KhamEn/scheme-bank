@@ -3,7 +3,7 @@ import SignUpForm from "./SignUpForm";
 
 const GuestUserbar = () => {
   return (
-    <div className="m-1">
+    <div className="flex flex-wrap items-center gap-1">
       <span className="rounded-full border border-gray-700 bg-gray-700 p-2 text-gray-200">
         Guest
       </span>

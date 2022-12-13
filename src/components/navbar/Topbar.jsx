@@ -3,7 +3,7 @@ import Userbar from "./account/Userbar";
 
 function Topbar() {
   return (
-    <nav className="fixed top-0 left-0 z-20 flex w-screen justify-between p-1 ">
+    <nav className="flex w-screen flex-wrap justify-between gap-1 p-1 ">
       <DropdownMenu />
       <Userbar />
     </nav>

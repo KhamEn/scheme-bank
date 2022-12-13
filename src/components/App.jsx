@@ -45,10 +45,10 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div className="flex flex-col">
       <Topbar />
       <SchemePage />
-    </>
+    </div>
   );
 }
 

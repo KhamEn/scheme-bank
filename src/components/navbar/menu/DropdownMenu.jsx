@@ -68,7 +68,7 @@ const DropdownMenu = () => {
       <div className="flex items-center">
         <Menu.Button
           className={
-            "justify-betwee m-2 flex gap-1 rounded-sm border border-gray-900  bg-gray-100 p-1 hover:border-gray-900 hover:bg-gray-900 hover:text-gray-100 ui-open:border-gray-900 ui-open:bg-gray-900 ui-open:text-gray-100  "
+            "justify-betwee mr-2 flex gap-1 rounded-sm border border-gray-900  bg-gray-100 p-1 hover:border-gray-900 hover:bg-gray-900 hover:text-gray-100 ui-open:border-gray-900 ui-open:bg-gray-900 ui-open:text-gray-100  "
           }
         >
           <Bars3Icon className="h-6" />
