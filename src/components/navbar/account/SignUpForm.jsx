@@ -63,9 +63,7 @@ const SignUpDialog = ({ isOpen, setIsOpen }) => {
       <div className="fixed inset-0 flex items-center justify-center">
         <Dialog.Panel className="rounded-md border bg-gray-100 p-8">
           <Dialog.Title className=" text-center text-xl  font-bold text-gray-900">
-            <div className=" text-sm font-light text-gray-900 ">
-              Join Scheme Bank
-            </div>
+            <div className="font-light text-brand-400 ">Join Scheme Bank</div>
             <div>Create User Account</div>
           </Dialog.Title>
           <div className="mt-8 mb-6">
