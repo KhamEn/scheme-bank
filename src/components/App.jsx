@@ -46,7 +46,7 @@ function App() {
 
   return (
     <div>
-      <div className="sticky top-0 z-50 w-screen max-w-full bg-gray-300">
+      <div className="sticky top-0 z-50 w-screen max-w-full border-b border-gray-50 backdrop-blur-3xl">
         <Topbar />
       </div>
       <div>

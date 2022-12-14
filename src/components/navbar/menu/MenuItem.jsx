@@ -44,21 +44,21 @@ const MenuItem = ({ id, name, onRename, onDelete }) => {
         <Menu.Item
           as="button"
           onClick={selectScheme}
-          className="h-full w-full transform rounded-sm border border-gray-900 bg-gray-100 p-1 text-gray-900 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer ui-active:bg-gray-900 ui-active:text-gray-100"
+          className="h-full w-full transform rounded-sm border border-gray-50 p-1 text-gray-50 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer ui-active:border-brand-300 ui-active:text-brand-300"
         >
           {name}
         </Menu.Item>
         <Menu.Item
           as="button"
           onClick={handleRenameClick}
-          className="transform rounded-sm border border-gray-500 p-1 text-gray-500 transition ui-active:-translate-y-0.5 ui-active:border-blue-500 ui-active:bg-blue-500 ui-active:text-gray-100"
+          className="transform rounded-sm border border-gray-50 p-1 text-gray-50 transition ui-active:-translate-y-0.5 ui-active:border-blue-500 ui-active:bg-blue-500 ui-active:text-gray-100"
         >
           <PencilSquareIcon className="h-4 w-4" />
         </Menu.Item>
         <Menu.Item
           as="button"
           onClick={handleDeleteClick}
-          className="transform rounded-sm border border-gray-500 p-1 text-gray-500 transition ui-active:-translate-y-0.5 ui-active:border-red-500 ui-active:bg-red-500 ui-active:text-gray-100"
+          className="transform rounded-sm border border-gray-50 p-1 text-gray-50 transition ui-active:-translate-y-0.5 ui-active:border-red-500 ui-active:bg-red-500 ui-active:text-gray-100"
         >
           <TrashIcon className="h-4 w-4" />
         </Menu.Item>
@@ -68,7 +68,7 @@ const MenuItem = ({ id, name, onRename, onDelete }) => {
     return (
       <Menu.Item as="button" className="bg- flex w-full items-center gap-1 p-1">
         <span
-          className="w-full transform rounded-sm border  border-gray-900 bg-gray-900 p-1 text-gray-100 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer"
+          className="w-full transform rounded-sm border  border-brand-300 bg-brand-300 p-1 text-gray-50 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer"
           onClick={selectScheme}
         >
           {name}

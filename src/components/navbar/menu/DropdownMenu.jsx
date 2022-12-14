@@ -65,25 +65,25 @@ const DropdownMenu = () => {
       <div className="flex items-center">
         <Menu.Button
           className={
-            "mx-1 rounded-sm border border-gray-900 bg-gray-100  p-1 hover:border-gray-900 hover:bg-gray-900 hover:text-gray-100 ui-open:border-gray-900 ui-open:bg-gray-900 ui-open:text-gray-100"
+            "mx-1 rounded-sm border border-ui-700 bg-gray-50 p-1  text-ui-700 hover:border-ui-700 hover:bg-ui-700 hover:text-gray-50 ui-open:border-ui-700 ui-open:bg-ui-700 ui-open:text-gray-50"
           }
         >
           <Bars3Icon className="h-6" />
         </Menu.Button>
         {currentSchemeQuery.isLoading ||
         currentSchemeQuery.isStale ||
-        currentSchemeQuery.isError ? (
-          <span className="mr-2 font-bold"></span>
-        ) : (
-          <div className="mr-2 font-bold">{currentSchemeQuery.data.name}</div>
+        currentSchemeQuery.isError ? null : (
+          <div className="mr-2 font-bold text-brand-300">
+            {currentSchemeQuery.data.name}
+          </div>
         )}
       </div>
-      <Menu.Items className="absolute left-0 z-50 h-screen w-screen gap-3 overflow-auto rounded-md bg-gray-300 px-4 pt-4 pb-12 sm:mt-2 sm:h-fit sm:w-fit sm:pb-4">
+      <Menu.Items className="absolute left-0 z-50 mt-1 h-screen w-screen gap-3 overflow-auto bg-ui-700 px-4 pt-4 pb-14  backdrop-blur-3xl sm:mt-2 sm:h-fit sm:w-fit sm:rounded-md sm:border sm:pb-4">
         {allSchemesQuery.isLoading ? <span>loading...</span> : listSchemes()}
         <Menu.Item
           as="button"
           onClick={() => setShowNewSchemeDialog((modalIsOpen) => !modalIsOpen)}
-          className="mt-10 flex w-full transform items-center justify-center gap-2 border border-gray-500 p-1  text-base font-semibold text-gray-500 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer ui-active:border-gray-100 ui-active:bg-green-500 ui-active:text-gray-100"
+          className="mt-10 flex w-full transform items-center justify-center gap-2 border border-green-300 p-1  text-base font-semibold text-green-300 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer ui-active:border-gray-100 ui-active:bg-green-500 ui-active:text-gray-100"
         >
           <PlusCircleIcon className="h-5 w-5" />
           <span>New Scheme</span>
