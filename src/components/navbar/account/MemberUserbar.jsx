@@ -16,7 +16,7 @@ const MemberUserbar = () => {
   return (
     <div className=" flex flex-wrap gap-1">
       <span className="h-fit rounded-full border border-gray-700 bg-gray-700 p-1 text-gray-200">
-        Member
+        {auth.currentUser.email}
       </span>
       <button onClick={signOut} className="btn btn-neutral mx-1 h-fit p-1">
         Sign Out
