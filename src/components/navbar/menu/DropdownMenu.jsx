@@ -61,14 +61,11 @@ const DropdownMenu = () => {
   }
 
   return (
-    <Menu
-      as="div"
-      className="h-fit w-fit ui-open:bg-gray-200 sm:ui-open:bg-transparent"
-    >
+    <Menu as="div" className="relative">
       <div className="flex items-center">
         <Menu.Button
           className={
-            "justify-betwee mr-2 flex gap-1 rounded-sm border border-gray-900  bg-gray-100 p-1 hover:border-gray-900 hover:bg-gray-900 hover:text-gray-100 ui-open:border-gray-900 ui-open:bg-gray-900 ui-open:text-gray-100  "
+            "mx-1 rounded-sm border border-gray-900 bg-gray-100  p-1 hover:border-gray-900 hover:bg-gray-900 hover:text-gray-100 ui-open:border-gray-900 ui-open:bg-gray-900 ui-open:text-gray-100"
           }
         >
           <Bars3Icon className="h-6" />
@@ -81,8 +78,7 @@ const DropdownMenu = () => {
           <div className="mr-2 font-bold">{currentSchemeQuery.data.name}</div>
         )}
       </div>
-
-      <Menu.Items className="flex h-screen w-screen flex-col gap-3 rounded-sm bg-gray-200 p-4 sm:ml-2 sm:h-full sm:w-full">
+      <Menu.Items className="absolute left-0 z-50 h-screen w-screen gap-3 overflow-auto rounded-md bg-gray-300 px-4 pt-4 pb-12 sm:mt-2 sm:h-fit sm:w-fit sm:pb-4">
         {allSchemesQuery.isLoading ? <span>loading...</span> : listSchemes()}
         <Menu.Item
           as="button"

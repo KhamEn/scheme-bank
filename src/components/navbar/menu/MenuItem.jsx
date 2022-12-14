@@ -66,9 +66,9 @@ const MenuItem = ({ id, name, onRename, onDelete }) => {
     );
   } else {
     return (
-      <Menu.Item as="button" className="flex items-center gap-1 p-1">
+      <Menu.Item as="button" className="bg- flex w-full items-center gap-1 p-1">
         <span
-          className="w-full transform rounded-sm border border-gray-900  bg-gray-900 p-1 text-gray-100 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer "
+          className="w-full transform rounded-sm border  border-gray-900 bg-gray-900 p-1 text-gray-100 transition ui-active:-translate-y-0.5 ui-active:cursor-pointer"
           onClick={selectScheme}
         >
           {name}

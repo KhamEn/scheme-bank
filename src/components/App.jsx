@@ -45,9 +45,13 @@ function App() {
   }, []);
 
   return (
-    <div className="flex flex-col">
-      <Topbar />
-      <SchemePage />
+    <div>
+      <div className="sticky top-0 z-50 w-screen max-w-full bg-gray-300">
+        <Topbar />
+      </div>
+      <div>
+        <SchemePage />
+      </div>
     </div>
   );
 }

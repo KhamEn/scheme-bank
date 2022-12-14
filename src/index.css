@@ -35,3 +35,7 @@ h3 {
 .transform-jump {
     @apply transform transition hover:-translate-y-0.5 
 }
+
+.topbar-height {
+    @apply h-24
+}

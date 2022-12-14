@@ -7,7 +7,7 @@ const SchemePage = () => {
   return (
     <>
       {currentSchemeQuery.isLoading || currentSchemeQuery.isStale ? null : (
-        <div className="mx-3 max-w-screen-2xl sm:mx-6 lg:mx-9 2xl:mx-auto">
+        <div className="max-w-screen-2xl px-1 sm:mx-6 lg:mx-9 2xl:mx-auto">
           <PaletteGroup groupName={firestoreSubCollection.PRIMARY_PALETTES} />
           <PaletteGroup groupName={firestoreSubCollection.NEUTRAL_PALETTES} />
           <PaletteGroup groupName={firestoreSubCollection.ACCENT_PALETTES} />
