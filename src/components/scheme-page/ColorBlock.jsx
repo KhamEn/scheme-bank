@@ -84,7 +84,7 @@ const ColorBlock = ({
       <div className="flex items-center text-sm font-light">
         <PencilSquareIcon
           onClick={() => setShowRenameColorDialog(true)}
-          className="transform-jump mr-1 h-6 w-6 text-gray-500 hover:cursor-pointer hover:text-blue-500"
+          className="transform-jump mr-1 h-4 w-4 text-gray-500 hover:cursor-pointer hover:text-blue-500"
         />
         <p>{name || "color name"}</p>
       </div>
@@ -92,7 +92,7 @@ const ColorBlock = ({
       <div className="flex items-center text-sm font-light">
         <ClipboardDocumentIcon
           onClick={onCopyColorValue}
-          className="transform-jump mr-1 h-6 w-6 text-gray-500 hover:cursor-pointer hover:text-gray-900"
+          className="transform-jump mr-1 h-4 w-4 text-gray-500 hover:cursor-pointer hover:text-gray-900"
         />
         {showCopyConfirmation ? (
           <div className="m-1 w-full rounded-lg bg-gray-900 text-center text-gray-100">
