@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" fill="none" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"></rect><path d="M221.6,149.4a96.2,96.2,0,0,0,2.4-22.2c-.4-52.9-44.2-95.7-97-95.2A96,96,0,0,0,96,218.5a23.9,23.9,0,0,0,32-22.6V192a23.9,23.9,0,0,1,24-24h46.2A24,24,0,0,0,221.6,149.4Z" fill="cornsilk" stroke="DarkGoldenRod" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+
+<circle fill="red" cx="95" cy="180" r="16"></circle>
+<circle fill="yellow" cx="70" cy="140" r="16"></circle>
+<circle fill="green" cx="80" cy="90" r="16"></circle>
+<circle fill="cyan" cx="125" cy="70" r="16"></circle>
+<circle fill="blue" cx="170" cy="90" r="16"></circle>
+<circle fill="magenta" cx="190" cy="130" r="16"></circle>
+
+
+
+<!-- <circle cx="130" cy="125" r="16"></circle> -->
+
+
+</svg> 
